@@ -26,27 +26,30 @@
 </style>
 <body>
 <div id="saHistoryData">
-	<table id="saTable">
+	<table>
 		<tr>
+			<th>序号</th>
 			<th>Name</th>
 			<th>Age</th>
 			<th>Phone</th>
 		</tr>
 		<#list users as user>
+			<#--判断下标为第一行时，设置字体颜色-->
 			<#if user_index == 0>
 				<tr style="color: #202fff">
-					<td>${user_index}-${user.name}</td>
+					<td>${user_index  + 1}</td>
+					<td>${user.name}</td>
 					<td>${user.age}</td>
 					<td>${user.phone}</td>
 				</tr>
 			<#else>
 				<tr>
+					<td>${user_index + 1}</td>
 					<td>${user.name}</td>
 					<td>${user.age}</td>
 					<td>${user.phone}</td>
 				</tr>
 			</#if>
-
 		</#list>
 	</table>
 </div>

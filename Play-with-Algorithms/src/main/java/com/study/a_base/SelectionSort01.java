@@ -1,7 +1,6 @@
 package com.study.a_base;
 
-import org.junit.Test;
-import utils.ArrayUtils;
+import utils.SortTestHelper;
 
 /**
  * 选择排序
@@ -12,27 +11,24 @@ import utils.ArrayUtils;
  */
 public class SelectionSort01 {
 
-    @Test
-    public void test01() {
-        int[] data = {23, 2, 45, 30, 5};
-
-        // 第一次循环，依次获取最小元素的位置i
-        for (int i = 0; i < data.length - 1; i++) {
-            // 第二次循环: 找出最小的一个数
-            int k = i; // 每次查找的最小数的位置
-            for (int j = k + 1; j < data.length; j++) {
-                if (data[j] < data[k]) {
+    public static void sort(int[] arr) {
+        int len = arr.length;
+        for (int i = 0; i < len; i++) {
+            // 寻找[i, n)区间里最小的元素
+            int k = i;
+            for (int j = i + 1; j < len; j++) {
+                if (arr[j] < arr[k]) {
                     k = j;
                 }
             }
-            // 把找到的最小元素的值和第i个位置交换
-            if (i != k) {
-                int temp = data[k];
-                data[k] = data[i];
-                data[i] = temp;
-            }
+            SortTestHelper.swap(arr, i, k);
         }
+    }
 
-        ArrayUtils.printArray(data);
+    public static void main(String[] args) {
+        int[] arr = {5, 3, 1, 4, 2, 2, 5};
+        sort(arr);
+        SortTestHelper.printArr(arr);
+        // 输出：1 2 2 3 4 5 5
     }
 }
