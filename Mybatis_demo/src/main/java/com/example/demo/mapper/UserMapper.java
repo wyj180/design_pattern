@@ -1,9 +1,8 @@
 package com.example.demo.mapper;
 
 import com.example.demo.entity.User;
-import org.springframework.stereotype.Repository;
 
-@Repository
+// 在启动类中写了 @MapperScan("com.example.demo.mapper") 之后，这里就不用写@Repository了
 public interface UserMapper {
     User sel(Integer id);
 }
