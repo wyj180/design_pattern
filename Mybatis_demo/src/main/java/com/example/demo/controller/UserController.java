@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.HashMap;
+import java.util.List;
 
 @RestController
 public class UserController {
@@ -17,8 +17,18 @@ public class UserController {
     private UserService userService;
 
     @RequestMapping("getUser/{id}")
-    public User GetUser(@PathVariable Integer id) {
+    public User getUser(@PathVariable Integer id) {
         return userService.sel(id);
+    }
+
+    @RequestMapping("getUser2/{id}")
+    public Object getUser2(@PathVariable Integer id) {
+        return userService.getUser2(id);
+    }
+
+    @RequestMapping("getList")
+    public List<Object> getList() {
+        return userService.getList();
     }
 
     @RequestMapping("insertUser")

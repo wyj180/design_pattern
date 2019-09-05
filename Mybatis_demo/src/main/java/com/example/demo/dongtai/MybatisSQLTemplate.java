@@ -1,7 +1,6 @@
 package com.example.demo.dongtai;
 
 import com.example.demo.entity.EventFormSQLParam;
-import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.jdbc.SQL;
 
 import java.util.Map;
@@ -12,31 +11,29 @@ public class MybatisSQLTemplate {
     /**
      * 插入数据
      *
-     * @param formData
-     * @param tableName
+     * @param param
      * @return
      */
-    public String insert(Map<String, Object> formData, String tableName) {
-        String sql = new SQL()
-                .INSERT_INTO(tableName)
-                .VALUES(buildFiled(formData), buildValue(formData))
-                .toString();
-        return sql;
+    public String insert(EventFormSQLParam param) {
+        Map<String, Object> formData = param.getFormData();
+        return new SQL()
+            .INSERT_INTO(param.getTableName())
+            .VALUES(buildFiled(formData), buildValue(formData))
+            .toString();
     }
 
     /**
      * 更新数据
      *
-     * @param formData
+     * @param param
      * @return
      */
-    public String updateById(Map<String, Object> formData, String tableName, Integer id) {
-        String sql = new SQL()
-                .UPDATE(tableName)
-                .SET(buildSet(formData))
-                .WHERE(buildIdWhere(id))
-                .toString();
-        return sql;
+    public String updateById(EventFormSQLParam param) {
+        return new SQL()
+            .UPDATE(param.getTableName())
+            .SET(buildSet(param.getFormData()))
+            .WHERE(buildIdWhere(param.getId()))
+            .toString();
     }
 
     /**
@@ -46,13 +43,28 @@ public class MybatisSQLTemplate {
      * @return
      */
     public String selectOne(EventFormSQLParam param) {
+        return selectList(param);
+    }
+
+    /**
+     * 查询多条数据
+     *
+     * @param param
+     * @return
+     */
+    public String selectList(EventFormSQLParam param) {
         return new SQL() {{
             SELECT(buildSelectFiled(param.getFormData()));
             FROM(param.getTableName());
             if (param.getConditions() != null) {
                 WHERE(buildWhere(param.getConditions()));
             }
-            ORDER_BY(buildOrder(param.getConditions()));
+            if (param.getId() != null) {
+                WHERE(buildIdWhere(param.getId()));
+            }
+            if(param.getOrders() != null){
+                ORDER_BY(buildOrder(param.getOrders()));
+            }
         }}.toString();
     }
 
@@ -77,7 +89,7 @@ public class MybatisSQLTemplate {
      * @return
      */
     private String buildSelectFiled(Map<String, Object> formData) {
-        if (formData.isEmpty()) {
+        if (formData == null || formData.isEmpty()) {
             return "*";
         }
         return buildFiled(formData);
@@ -90,7 +102,7 @@ public class MybatisSQLTemplate {
      * @return
      */
     private String buildValue(Map<String, Object> formData) {
-        if (formData.isEmpty()) {
+        if (formData == null || formData.isEmpty()) {
             throw new IllegalArgumentException("Parameter value is required");
         }
         String columns = formData.keySet().stream().map(i -> "#{formData." + i + "}").collect(Collectors.toList()).toString();
@@ -104,7 +116,7 @@ public class MybatisSQLTemplate {
      * @return
      */
     private String buildSet(Map<String, Object> formData) {
-        if (formData.isEmpty()) {
+        if (formData == null || formData.isEmpty()) {
             throw new IllegalArgumentException("The value to be modified cannot be empty");
         }
         String sets = formData.keySet().stream().map(i -> i + "=#{formData." + i + "}").collect(Collectors.toList()).toString();
@@ -132,10 +144,11 @@ public class MybatisSQLTemplate {
      */
     private String buildWhere(Map<String, Object> conditions) {
         if (conditions == null || conditions.size() == 0) {
-            throw new IllegalArgumentException("where condition is null");
+            return null;
         }
         String sets = conditions.keySet().stream().map(i -> i + "=#{conditions." + i + "}").collect(Collectors.toList()).toString();
-        return sets.substring(1, sets.length() - 1);
+        String sql = sets.substring(1, sets.length() - 1).replace(",", " and ");
+        return sql;
     }
 
     /**
@@ -144,11 +157,11 @@ public class MybatisSQLTemplate {
      * @param orders
      * @return
      */
-    private String buildOrder(Map<String, Object> orders) {
+    private String buildOrder(Map<String, String> orders) {
         if (orders == null || orders.size() == 0) {
-            throw new IllegalArgumentException("orders is null");
+            return null;
         }
-        String sets = orders.keySet().stream().map(i -> i + "=#{orders." + i + "}").collect(Collectors.toList()).toString();
+        String sets = orders.keySet().stream().map(key -> key + " " + orders.get(key)).collect(Collectors.toList()).toString();
         return sets.substring(1, sets.length() - 1);
     }
 }

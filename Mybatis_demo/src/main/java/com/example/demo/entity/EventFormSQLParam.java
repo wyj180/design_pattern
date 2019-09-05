@@ -1,7 +1,6 @@
 package com.example.demo.entity;
 
 import lombok.Data;
-import org.apache.ibatis.annotations.Param;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -35,23 +34,14 @@ public class EventFormSQLParam {
     Map<String, String> orders = new HashMap<>();
 
     /**
-     * 获取需要排序的字段
-     *
-     * @return
-     */
-    public Map<String, String> getOrders() {
-        if (orders.size() == 0) {
-            return getDefaultOrder();
-        }
-        return orders;
-    }
-
-    /**
      * 默认根据创建时间倒序排序
      *
      * @return
      */
     public Map<String, String> getDefaultOrder() {
+        if (orders == null) {
+            orders = new HashMap<>();
+        }
         orders.put("gmt_create", "desc");
         return orders;
     }

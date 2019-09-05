@@ -44,6 +44,15 @@ public class IndexMaxHeap<Item extends Comparable> {
         shiftUp(count);
     }
 
+    // 索引堆中, 数据之间的比较根据data的大小进行比较, 但实际操作的是索引
+    private void shiftUp(int k) {
+
+        while (k > 1 && data[indexes[k / 2]].compareTo(data[indexes[k]]) < 0) {
+            swapIndexes(k, k / 2);
+            k /= 2;
+        }
+    }
+
     // 从最大索引堆中取出堆顶元素, 即索引堆中所存储的最大数据
     public Item extractMax() {
         assert count > 0;
@@ -88,7 +97,6 @@ public class IndexMaxHeap<Item extends Comparable> {
 
     // 将最大索引堆中索引为i的元素修改为newItem
     public void change(int i, Item newItem) {
-
         i += 1;
         data[i] = newItem;
 
@@ -113,15 +121,6 @@ public class IndexMaxHeap<Item extends Comparable> {
     //********************
     //* 最大索引堆核心辅助函数
     //********************
-
-    // 索引堆中, 数据之间的比较根据data的大小进行比较, 但实际操作的是索引
-    private void shiftUp(int k) {
-
-        while (k > 1 && data[indexes[k / 2]].compareTo(data[indexes[k]]) < 0) {
-            swapIndexes(k, k / 2);
-            k /= 2;
-        }
-    }
 
     // 索引堆中, 数据之间的比较根据data的大小进行比较, 但实际操作的是索引
     private void shiftDown(int k) {

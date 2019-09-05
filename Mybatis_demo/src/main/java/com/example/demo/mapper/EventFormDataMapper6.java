@@ -12,9 +12,9 @@ import java.util.Map;
  */
 public interface EventFormDataMapper6 {
 
-    @InsertProvider(type = MybatisSQLTemplate.class, method = "insert")
+    @InsertProvider(type = MybatisSQLTemplate3.class, method = "insert")
     int insert(Map<String, Object> params);
 
-    @UpdateProvider(type = MybatisSQLTemplate.class, method = "update")
+    @UpdateProvider(type = MybatisSQLTemplate3.class, method = "update")
     int update(Map<String, Object> params);
 }
