@@ -1,6 +1,7 @@
 package com.example.demo.controller;
 
 import com.example.demo.entity.User;
+import com.example.demo.entity.queryParam.EventListPageQuery;
 import com.example.demo.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -24,6 +25,12 @@ public class UserController {
     @RequestMapping("getUser2/{id}")
     public Object getUser2(@PathVariable Integer id) {
         return userService.getUser2(id);
+    }
+
+    // 分页查询
+    @RequestMapping("getUserByPage")
+    public Object getUserByPage(EventListPageQuery pageQuery) {
+        return userService.getByPage(pageQuery);
     }
 
     @RequestMapping("getList")

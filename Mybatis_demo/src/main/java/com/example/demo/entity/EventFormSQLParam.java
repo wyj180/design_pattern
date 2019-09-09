@@ -31,19 +31,89 @@ public class EventFormSQLParam {
     /**
      * 排序字段
      */
-    Map<String, String> orders = new HashMap<>();
+    Map<String, String> orders;
+
+    public EventFormSQLParam(){
+
+    }
+
+    public EventFormSQLParam(BaseEventFormData formData) {
+        HashMap<String, Object> data = formData.getFormData().getData();
+        if (data != null && data.get("id") != null) {
+            this.id = Integer.parseInt(data.get("id").toString());
+        }
+        this.tableName = formData.getFormData().getTableName();
+        this.formData = data;
+    }
 
     /**
-     * 默认根据创建时间倒序排序
+     * 添加表单属性
      *
-     * @return
+     * @param key
+     * @param value
      */
-    public Map<String, String> getDefaultOrder() {
-        if (orders == null) {
-            orders = new HashMap<>();
+    public void setFormData(String key, Object value) {
+        formData = (formData == null) ? new HashMap<>() : formData;
+        formData.put(key, value);
+    }
+
+    /**
+     * 使用构建者模式创建对象
+     *
+     * @param builder
+     */
+    public EventFormSQLParam(Builder builder) {
+        this.id = builder.id;
+        this.tableName = builder.tableName;
+        this.formData = builder.formData;
+        this.conditions = builder.conditions;
+        this.orders = builder.orders;
+    }
+
+    /**
+     * 使用构建者模式创建对象
+     */
+    public static class Builder {
+        private Integer id;
+        private String tableName;
+        private Map<String, Object> formData;
+        private Map<String, Object> conditions;
+        private Map<String, String> orders;
+
+        public Builder(String tableName) {
+            this.tableName = tableName;
         }
-        orders.put("gmt_create", "desc");
-        return orders;
+
+        public Builder(String tableName, Map<String, Object> formData) {
+            this.tableName = tableName;
+            this.formData = formData;
+        }
+
+        public Builder setCondition(Map<String, Object> conditions) {
+            this.conditions = conditions;
+            return this;
+        }
+
+        public Builder setOrders(Map<String, String> orders) {
+            this.orders = orders;
+            return this;
+        }
+
+        public Builder setDefaultOrders() {
+            // 默认根据创建时间倒序排序
+            orders = (orders == null) ? new HashMap<>() : orders;
+            orders.put("gmt_create", "desc");
+            return this;
+        }
+
+        public Builder setId(Integer id) {
+            this.id = id;
+            return this;
+        }
+
+        public EventFormSQLParam build() {
+            return new EventFormSQLParam(this);
+        }
     }
 
 }

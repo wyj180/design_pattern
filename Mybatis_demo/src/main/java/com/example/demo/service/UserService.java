@@ -2,8 +2,12 @@ package com.example.demo.service;
 
 import com.example.demo.entity.EventFormSQLParam;
 import com.example.demo.entity.User;
+import com.example.demo.entity.queryParam.EventListPageQuery;
 import com.example.demo.mapper.EventFormDataMapper;
 import com.example.demo.mapper.UserMapper;
+import com.github.pagehelper.Page;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -63,9 +67,25 @@ public class UserService {
         sqlParam.setTableName(tableName);
         sqlParam.setFormData(tableParams);
 
-        orderInfoMapper.insert(sqlParam);
+        int result = orderInfoMapper.insert(sqlParam);
+        System.out.println("插入的数据id : " + result);
 
         return null;
+    }
+
+    public PageInfo<Map<String, Object>> getByPage(EventListPageQuery pageQuery) {
+        Page<Map<String, Object>> pageList = null;
+        //if (StringUtils.isNotBlank(pageQuery.getKey())) {
+        if (false) {
+            //search from elastic service
+            //pageList = eventSearchService.searchOnePageByPage(pageQuery);
+        } else {
+            String tableName = "user";
+            PageHelper.startPage(pageQuery.getPageNum(), pageQuery.getPageSize());
+            EventFormSQLParam formSQLParam = new EventFormSQLParam.Builder(tableName).setDefaultOrders().build();
+            pageList = orderInfoMapper.selectByPage(formSQLParam);
+        }
+        return new PageInfo<>(pageList);
     }
 
     public String updateUser(Integer id) {
