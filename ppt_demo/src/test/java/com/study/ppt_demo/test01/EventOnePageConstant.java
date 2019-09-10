@@ -15,22 +15,25 @@ public class EventOnePageConstant {
 	/**
 	 * 导出ppt文本框占位符
 	 */
-	public static final String VAR_PROGRAM = "${var_program}";
+	public static final String VAR_PRODUCT = "${var_product}";
 	public static final String VAR_SUPPLIER = "${var_supplier}";
+	public static final String VAR_SOURCE = "${var_source}";
+	public static final String VAR_INHOUSE = "${var_inhouse}";
+	public static final String VAR_CATEGORY = "${var_category}";
 	public static final String VAR_PE = "${var_pe}";
-	public static final String VAR_LEAD = "${var_lead}";
-	public static final String VAR_LASTUPDATED = "${var_lastUpdated}";
-	public static final String VAR_STATUS = "${overall_status}";
-	public static final String VAR_PROGRAMKEYUPDATE = "${var_programKeyUpdate}";
+	public static final String VAR_UPDATE_TIME = "${var_updateTime}";
+	public static final String VAR_OVERALL_STATUS = "${var_overallStatus}";
 
 	/**
 	 * 导出ppt文本框内容前缀
 	 */
-	public static final String PROGRAM_PREFIX = "Program: ";
+	public static final String PRODUCT_PREFIX = "Product: ";
 	public static final String SUPPLIER_PREFIX = "Supplier: ";
+	public static final String SOURCE_PREFIX = "Source: ";
+	public static final String INHOUSE_PREFIX = "Inhouse/ODM: ";
+	public static final String CATEGORY_PREFIX = "Category: ";
 	public static final String PE_PREFIX = "PE: ";
-	public static final String LEAD_PREFIX = "Lead: ";
-	public static final String LASTUPDATED_PREFIX = "Last Updated: ";
-	public static final String STATUS_PREFIX = "Overall Status: ";
+	public static final String UPDATE_TIME_PREFIX = "Update Time: ";
+	public static final String OVERALL_STATUS_PREFIX = "Overall Status: ";
 
 }

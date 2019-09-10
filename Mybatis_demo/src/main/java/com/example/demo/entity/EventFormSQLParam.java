@@ -3,6 +3,7 @@ package com.example.demo.entity;
 import lombok.Data;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -27,6 +28,11 @@ public class EventFormSQLParam {
      * 删除/更新/查询的条件
      */
     Map<String, Object> conditions;
+
+    /**
+     * in('value1', 'value2')查询条件
+     */
+    Map<String, List<Object>> ins;
 
     /**
      * 排序字段
@@ -79,6 +85,7 @@ public class EventFormSQLParam {
         private Map<String, Object> formData;
         private Map<String, Object> conditions;
         private Map<String, String> orders;
+        Map<String, List<Object>> ins;
 
         public Builder(String tableName) {
             this.tableName = tableName;
@@ -96,6 +103,11 @@ public class EventFormSQLParam {
 
         public Builder setOrders(Map<String, String> orders) {
             this.orders = orders;
+            return this;
+        }
+
+        public Builder setIns(Map<String, List<Object>> ins) {
+            this.ins = ins;
             return this;
         }
 

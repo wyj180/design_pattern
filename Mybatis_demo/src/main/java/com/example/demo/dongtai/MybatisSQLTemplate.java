@@ -3,6 +3,9 @@ package com.example.demo.dongtai;
 import com.example.demo.entity.EventFormSQLParam;
 import org.apache.ibatis.jdbc.SQL;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
@@ -65,6 +68,9 @@ public class MybatisSQLTemplate {
             if(param.getOrders() != null){
                 ORDER_BY(buildOrder(param.getOrders()));
             }
+            if (param.getIns() != null) {
+                WHERE(buildIns(param.getIns()));
+            }
         }}.toString();
     }
 
@@ -121,6 +127,52 @@ public class MybatisSQLTemplate {
         }
         String sets = formData.keySet().stream().map(i -> i + "=#{formData." + i + "}").collect(Collectors.toList()).toString();
         return sets.substring(1, sets.length() - 1);
+    }
+
+    /**
+     * 构建in('value1', 'value2')
+     *
+     * @param conditions
+     * @return
+     */
+    private static String buildIns(Map<String, List<Object>> conditions) {
+        if (conditions == null || conditions.isEmpty()) {
+            throw new IllegalArgumentException("The value to be modified cannot be empty");
+        }
+        String result = " 1 = 1";
+        for (Map.Entry<String, List<Object>> entry : conditions.entrySet()) {
+            if (entry.getValue() == null || entry.getValue().isEmpty()) {
+                continue;
+            }
+            result += " and " + entry.getKey() + " in (";
+            String inValue = "";
+            List<Object> values = entry.getValue();
+            for (int i = 0; i < values.size(); i++) {
+                inValue += "'" + values.get(i) + "'";
+                if (i != values.size() - 1) {
+                    inValue += ",";
+                }
+            }
+            result += inValue + ")";
+        }
+        return result;
+    }
+
+    public static void main(String[] args) {
+        Map<String, List<Object>> conditions = new HashMap<>();
+        List<Object> ids = null;
+//        ids.add(1);
+//        ids.add(2);
+//        ids.add(3);
+        conditions.put("id", ids);
+        List<Object> names = new ArrayList<>();
+        names.add("admin");
+        names.add("zs");
+        names.add("lisi");
+        conditions.put("name", names);
+
+        String s = buildIns(conditions);
+        System.out.println(s);
     }
 
     /**

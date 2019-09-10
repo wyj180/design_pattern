@@ -35,7 +35,7 @@ public class TestCreatePPT6 {
 		handleFirstSlide(slides.get(2));
 
 		// save changes in a file
-		FileOutputStream out = new FileOutputStream("D:\\testDir\\PPT\\1_onepage\\onepage_test19.ppt");
+		FileOutputStream out = new FileOutputStream("D:\\testDir\\PPT\\1_onepage\\onepage_test20.ppt");
 
 		ppt.write(out);
 		out.close();
@@ -78,7 +78,10 @@ public class TestCreatePPT6 {
 				XSLFTextParagraph p = tableCell.addNewTextParagraph();
 				XSLFTextRun tr = p.addNewTextRun();
 				tr.setText(String.valueOf(datas[i][j]));
-				
+				XSLFHyperlink hyperlink = tr.createHyperlink();
+				hyperlink.linkToUrl("http://sqm.test.com/sqm/common/downloadFile?showFileName=Yield_Report_V20190723_0001(33).xlsx");
+				hyperlink.setLabel("点机下载文件");
+
 				// 设置单元格样式
 				tableCell.setBorderColor(BorderEdge.left, new Color(0));
 				tableCell.setBorderColor(BorderEdge.right, new Color(0));

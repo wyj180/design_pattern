@@ -58,7 +58,7 @@ public class BellmanFord<Weight extends Number & Comparable> {
 
     // 判断图中是否有负权环
     boolean detectNegativeCycle(){
-
+        // 进行第v(节点数为v)次松弛操作，如果存在更小的路径，说明存在负权环
         for( int i = 0 ; i < G.V() ; i ++ ){
             for( Object item : G.adj(i) ){
                 Edge<Weight> e = (Edge<Weight>)item;

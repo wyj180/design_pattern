@@ -11,6 +11,7 @@ import com.github.pagehelper.PageInfo;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -82,7 +83,21 @@ public class UserService {
         } else {
             String tableName = "user";
             PageHelper.startPage(pageQuery.getPageNum(), pageQuery.getPageSize());
+
+            Map<String, List<Object>> ins = new HashMap<>();
+            List<Object> names = new ArrayList<>();
+            names.add("admin");
+            names.add("abc");
+            ins.put("userName", names);
+            List<Object> pass = new ArrayList<>();
+            pass.add("1");
+            pass.add("2");
+            ins.put("id", pass);
+
+
             EventFormSQLParam formSQLParam = new EventFormSQLParam.Builder(tableName).setDefaultOrders().build();
+            formSQLParam.setIns(ins);
+
             pageList = orderInfoMapper.selectByPage(formSQLParam);
         }
         return new PageInfo<>(pageList);
