@@ -95,6 +95,9 @@ public class TestCreatePPT7 {
 				tableCell.setBorderWidth(BorderEdge.top, 1);
 			}
 		}
+
+		List<XSLFTableRow> rows = table.getRows();
+
 	}
 
 }

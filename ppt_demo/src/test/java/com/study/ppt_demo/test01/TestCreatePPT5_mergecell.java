@@ -19,7 +19,7 @@ import org.apache.poi.xslf.usermodel.XSLFTextParagraph;
 import org.apache.poi.xslf.usermodel.XSLFTextRun;
 
 /**
- * 使用模板导出ppt，测试设置样式
+ * 使用模板导出ppt，测试设置样式，合并单元格
  *
  */
 public class TestCreatePPT5_mergecell {

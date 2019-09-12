@@ -131,6 +131,9 @@ public class MybatisSQLTemplate {
 
     /**
      * 构建in('value1', 'value2')
+     * 使用方式：结合WHERE一起使用
+     * 示例：WHERE(buildIns(param.getIns()));
+     *
      *
      * @param conditions
      * @return

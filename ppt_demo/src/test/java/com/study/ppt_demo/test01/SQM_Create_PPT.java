@@ -106,7 +106,7 @@ public class SQM_Create_PPT {
 	 * @param textBoxList
 	 */
 	private void setTextboxValue(List<XSLFTextBox> textBoxList) {
-		for (XSLFTextBox textBox : textBoxList) {
+		/*for (XSLFTextBox textBox : textBoxList) {
 			String text = textBox.getText();
 			if (text.equals(VAR_PROGRAM)) {
 				textBox.setText(PROGRAM_PREFIX + "");
@@ -124,7 +124,7 @@ public class SQM_Create_PPT {
 				// 这里需要列出具体的1、2、3、
 				textBox.setText("");
 			}
-		}
+		}*/
 	}
 
 	// 从slide中获取table和textbox
