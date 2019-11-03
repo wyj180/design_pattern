@@ -1,0 +1,35 @@
+sqm:
+  manager:
+    es:
+      url: 10.109.4.106
+
+#pagehelper config
+pagehelper:
+  helper-dialect: mysql
+  reasonable: true
+  support-methods-arguments: true
+  params: count=countSql
+
+#dataSource config
+spring:
+  datasource:
+    app:
+      #jdbc pool config
+      url: jdbc:mysql://10.109.4.106:3306/sqm_app?useUnicode=true&characterEncoding=utf8&serverTimezone=GMT%2B8&autoReconnect=true
+      driver-class-name: com.mysql.cj.jdbc.Driver
+      username: root
+      password: root
+      initial-size: 5
+      max-active: 20
+      min-idle: 5
+      max-wait: 60000
+      pool-prepared-statements: true
+      max-pool-prepared-statement-per-connection-size: 100
+      validation-query: select 'x'
+      validation-query-timeout: 6
+      test-on-borrow: true
+      test-on-return: false
+      test-while-idle: true
+      time-between-eviction-runs-millis: 3600000
+      min-evictable-idle-time-millis: 1800000
+      filter: stat,wall,log4j

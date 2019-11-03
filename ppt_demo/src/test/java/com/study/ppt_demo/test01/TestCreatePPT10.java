@@ -4,10 +4,8 @@ package com.study.ppt_demo.test01;
 import org.apache.poi.sl.usermodel.TableCell.BorderEdge;
 import org.apache.poi.xslf.usermodel.*;
 
-import java.awt.*;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.InputStream;
+import java.awt.Color;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -18,15 +16,15 @@ import static com.study.ppt_demo.test01.EventOnePageConstant.*;
 
 /**
  * 1_使用两个模板导出ppt，修改textBox的值时出现错误
- *
-   报错：在处理复制出来的ppt页面中的textBox时，报错
-   Exception in thread "main" org.apache.xmlbeans.impl.values.XmlValueDisconnectedException
+ * <p>
+ * 报错：在处理复制出来的ppt页面中的textBox时，报错
+ * Exception in thread "main" org.apache.xmlbeans.impl.values.XmlValueDisconnectedException
  */
-public class TestCreatePPT9 {
+public class TestCreatePPT10 {
 
-    static  Map<String, Object> baseInfo = new HashMap<>();
+    static Map<String, Object> baseInfo = new HashMap<>();
 
-    static  {
+    static {
         baseInfo.put(VAR_PRODUCT, "var_product");
         baseInfo.put(VAR_SUPPLIER, "var_supplier");
         baseInfo.put(VAR_SOURCE, "var_source");
@@ -38,28 +36,33 @@ public class TestCreatePPT9 {
     }
 
     public static void main(String[] args) throws Exception {
-        //InputStream inputStream = new FileInputStream("D:\\testDir\\PPT\\1_onepage\\template\\SQM_template\\newTemplate\\new_report_test.pptx");
-        InputStream inputStream = new FileInputStream("D:\\testDir\\PPT\\1_onepage\\onepage_test28.ppt");
+        InputStream inputStream = new FileInputStream("D:\\testDir\\PPT\\1_onepage\\template\\SQM_template\\newTemplate\\new_report_test.pptx");
+        //InputStream inputStream = new FileInputStream("D:\\testDir\\PPT\\1_onepage\\onepage_test28.ppt");
         XMLSlideShow ppt = new XMLSlideShow(inputStream);
 
         // 根据两个模板创建多页ppt
-         createNewSlideByTemplate(ppt);
+        String templateFile = createNewSlideByTemplate(ppt);
+
+        InputStream templateInputStream = new FileInputStream(templateFile);
+        XMLSlideShow templatePpt = new XMLSlideShow(templateInputStream);
 
         // add first slide
-        List<XSLFSlide> slides = ppt.getSlides();
+        List<XSLFSlide> slides = templatePpt.getSlides();
 
         // 处理ppt中的数据
         handleSlide(slides.get(0));
 
         // 处理ppt中的数据
-        handleSlide(slides.get(4));
+        handleSlide(slides.get(2));
 
         // save changes in a file
-        FileOutputStream out = new FileOutputStream("D:\\testDir\\PPT\\1_onepage\\onepage_test30.ppt");
+        FileOutputStream out = new FileOutputStream("D:\\testDir\\PPT\\1_onepage\\onepage_test38.ppt");
 
-        ppt.write(out);
-        out.close();
-        ppt.close();
+        templatePpt.write(out);
+        out.flush();
+        //        out.close();
+
+//        ppt.close();
         System.out.println("运行完毕");
     }
 
@@ -175,30 +178,58 @@ public class TestCreatePPT9 {
      *
      * @param ppt
      */
-    private static void createNewSlideByTemplate(XMLSlideShow ppt) {
-        XSLFSlide slide1 = ppt.getSlides().get(0);
-        XSLFSlide slide2 = ppt.getSlides().get(1);
+    private static String createNewSlideByTemplate(XMLSlideShow ppt) {
+        try {
+            XSLFSlide slide1 = ppt.getSlides().get(0);
+            XSLFSlide slide2 = ppt.getSlides().get(1);
 
-        // blank slide
-        XSLFSlide blankSlide = ppt.createSlide();
-        blankSlide.importContent(slide1);
+            System.out.println("ppt页数：" + ppt.getSlides().size());
+            // blank slide
+            copySlide(slide1, ppt);
+            copySlide(slide2, ppt);
 
-        XSLFSlide blankSlide2 = ppt.createSlide();
-        blankSlide2.importContent(slide2);
+            copySlide(slide1, ppt);
+            copySlide(slide2, ppt);
+            copySlide(slide1, ppt);
+            copySlide(slide2, ppt);
+            copySlide(slide1, ppt);
+            copySlide(slide2, ppt);
 
-        // blank slide
-        XSLFSlide blankSlide3 = ppt.createSlide();
-        blankSlide3.importContent(slide1);
+            System.out.println("ppt页数：" + ppt.getSlides().size());
 
-        XSLFSlide blankSlide4 = ppt.createSlide();
-        blankSlide4.importContent(slide2);
-
-        // blank slide
-        XSLFSlide blankSlide5 = ppt.createSlide();
-        blankSlide5.importContent(slide1);
-
-        XSLFSlide blankSlide6 = ppt.createSlide();
-        blankSlide6.importContent(slide2);
+            File tempFile = new File("D:\\testDir\\PPT\\1_onepage\\onepage_test35.ppt");
+            FileOutputStream out = new FileOutputStream(tempFile);
+            ppt.write(out);
+            out.close();
+            
+            return tempFile.getAbsolutePath();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
     }
+
+    private static void copySlide(XSLFSlide slide, XMLSlideShow ppt) {
+        XSLFSlide s1 = ppt.createSlide(slide.getSlideLayout());
+        s1.importContent(slide);
+    }
+
+//    private static XSLFSlide copySlide(XSLFSlide template, XMLSlideShow ppt) throws IOException {
+//        XSLFSlide newSlide = ppt.createSlide(template.getSlideLayout());
+//        List<XSLFShape> shapes = slide.getSlideShow().getSlides().get(0).getShapes();
+//        for (XSLFShape shape : shapes) {
+//            newSlide.addShape(shape);
+//        }
+//        return newSlide;
+//    }
+
+//    private static Slide copySlide(Slide slide) {
+//        Slide s1 = slide.getSlideShow().createSlide();
+//        Shape[] shapes = slide.getShapes();
+//        for (Shape shape : shapes) {
+//            s1.addShape(shape);
+//        }
+//        return s1;
+//    }
 
 }

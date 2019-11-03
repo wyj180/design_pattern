@@ -1,0 +1,23 @@
+server:
+  port: 8881
+  servlet:
+    context-path: /email
+
+spring:
+  profiles:
+    active: common,db-prod,manager-prod,@profileActive@
+  mail:
+    host: smtp.163.com
+    username: 18010626471@163.com
+    password: wyj18010626471
+    default-encoding: utf-8
+  datasource:
+    druid:
+      username: root
+      password: root
+      url: jdbc:mysql://localhost:3306/mybatis?useUnicode=true&characterEncoding=utf-8&useSSL=true&serverTimezone=UTC
+      driver-class-name: com.mysql.cj.jdbc.Driver
+
+
+
+
