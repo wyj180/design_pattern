@@ -1,11 +1,11 @@
 
 package com.neimeng.workflow.config;
 
+import com.neimeng.workflow.diagram.ICustomProcessDiagramGenerator;
 import org.activiti.spring.SpringAsyncExecutor;
 import org.activiti.spring.SpringProcessEngineConfiguration;
 import org.activiti.spring.boot.AbstractProcessEngineAutoConfiguration;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.AutoConfigureAfter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.transaction.PlatformTransactionManager;
@@ -27,6 +27,10 @@ public class ActivitiConfig extends AbstractProcessEngineAutoConfiguration {
     @Resource
     private PlatformTransactionManager transactionManager;
 
+    // 生成流程图接口
+    @Autowired
+    private ICustomProcessDiagramGenerator customProcessDiagramGenerator;
+
     @Bean
     public SpringProcessEngineConfiguration springProcessEngineConfiguration(
             SpringAsyncExecutor springAsyncExecutor) throws IOException {
@@ -38,6 +42,9 @@ public class ActivitiConfig extends AbstractProcessEngineAutoConfiguration {
 
         //close job executor
         springProcessEngineConfiguration.setAsyncExecutorActivate(false);
+
+        //自定义流程图样式
+        springProcessEngineConfiguration.setProcessDiagramGenerator(customProcessDiagramGenerator);
 
         return springProcessEngineConfiguration;
     }

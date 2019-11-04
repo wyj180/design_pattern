@@ -28,7 +28,6 @@ import java.util.Map;
 
 /**
  * 流程控制器
- * liuzhize 2019年3月7日下午3:28:14
  */
 @Controller
 public class ModelerController {
@@ -37,10 +36,13 @@ public class ModelerController {
 
     @Autowired
     private RepositoryService repositoryService;
+
     @Autowired
     private ObjectMapper objectMapper;
+
     @Autowired
     private HistoryService historyService;
+
     @Autowired
     private RuntimeService runtimeService;
 

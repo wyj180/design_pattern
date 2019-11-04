@@ -11,7 +11,9 @@ import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.activiti.engine.task.Task;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Activiti 入门案例一
@@ -116,7 +118,8 @@ public class HelloWorld01 extends WorkflowApplicationTests {
     @Test
     public void completeMyPersonalTask() {
         String taskId = "5005";  //任务ID
-        taskService.complete(taskId);
+        Map<String, Object> variables = new HashMap<>();
+        taskService.complete(taskId, variables);
         System.out.println("完成任务，任务ID = ：" + taskId);
     }
 

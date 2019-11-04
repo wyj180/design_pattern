@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 /**
  * 获取model的节点信息，编辑器根据返回的json进行绘图
- * liuzhize 2019年3月7日下午3:29:15
  */
 @RestController
 @RequestMapping("service")
