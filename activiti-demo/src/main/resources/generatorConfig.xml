@@ -67,8 +67,16 @@
         </javaClientGenerator>
 
 
-        <table tableName="ds_process_relation"
-               domainObjectName="DsProcessRelation"
+        <table tableName="process_task"
+               domainObjectName="ProcessTask"
+               enableCountByExample="false"
+               enableUpdateByExample="false"
+               enableDeleteByExample="false"
+               enableSelectByExample="false"
+               selectByExampleQueryId="false"></table>
+
+        <table tableName="process_dataset"
+               domainObjectName="ProcessDataset"
                enableCountByExample="false"
                enableUpdateByExample="false"
                enableDeleteByExample="false"

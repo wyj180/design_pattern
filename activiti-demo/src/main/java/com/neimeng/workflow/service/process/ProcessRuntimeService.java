@@ -1,4 +1,4 @@
-package com.neimeng.workflow.service;
+package com.neimeng.workflow.service.process;
 
 import java.util.List;
 import java.util.Map;
@@ -131,5 +131,23 @@ public class ProcessRuntimeService {
     public List<Execution> getExecutionEntityByPKey(String processDefinitionKey) {
         return runtimeService.createExecutionQuery().processDefinitionKey(processDefinitionKey)
             .orderByProcessInstanceId().desc().list();
+    }
+
+    /**
+     * 判断流程是否结束
+     *
+     * 说明：true:已结束   false:还没结束
+     *
+     * @param processInstanceId
+     * @return
+     */
+    public boolean processIsEnd(String processInstanceId) {
+        ProcessInstance processInstance = runtimeService.createProcessInstanceQuery()
+                .processInstanceId(processInstanceId)
+                .singleResult();
+        if (processInstance == null) {
+            return true;
+        }
+        return false;
     }
 }

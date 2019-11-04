@@ -1,4 +1,4 @@
-package com.neimeng.workflow.service;
+package com.neimeng.workflow.service.process;
 
 import java.io.InputStream;
 import java.util.List;
@@ -6,6 +6,7 @@ import java.util.Map;
 import lombok.extern.slf4j.Slf4j;
 import org.activiti.engine.TaskService;
 import org.activiti.engine.task.Attachment;
+import org.activiti.engine.task.Comment;
 import org.activiti.engine.task.Task;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -37,7 +38,7 @@ public class ProcessTaskService {
      * @param taskId
      * @param variables
      */
-    public void complete(String taskId, Map<String, Object> variables) {
+    public void completeTask(String taskId, Map<String, Object> variables) {
         taskService.complete(taskId, variables);
     }
 
@@ -63,6 +64,17 @@ public class ProcessTaskService {
     }
 
     /**
+     * 获取历史评论信息
+     *
+     * @param processInstanceId
+     * @return
+     */
+    public List<Comment> getComments(String processInstanceId) {
+        List<Comment> comments = taskService.getProcessInstanceComments(processInstanceId);
+        return comments;
+    }
+
+    /**
      * 根据任务id获取任务实例
      *
      * @param taskId
@@ -85,7 +97,7 @@ public class ProcessTaskService {
      * @return
      */
     public List<Task> getTasksByUserId(String taskAssignee) {
-        return taskService.createTaskQuery().taskAssignee(taskAssignee).list();
+        return taskService.createTaskQuery().taskAssignee(taskAssignee).orderByTaskCreateTime().desc().list();
     }
 
     /**

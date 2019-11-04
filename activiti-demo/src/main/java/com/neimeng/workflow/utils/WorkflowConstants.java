@@ -3,9 +3,14 @@ package com.neimeng.workflow.utils;
 import java.awt.Color;
 
 /**
- * 变量类
- **/
+ * 流程常量
+ */
 public final class WorkflowConstants {
+
+    /**
+     * 审批结果_流程变量名
+     */
+    public static final String APPROVAL_RESULT_VARIABLE_NAME = "approval_result";
 
     /**
      * 流程图颜色定义

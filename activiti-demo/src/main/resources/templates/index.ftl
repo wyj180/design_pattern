@@ -40,7 +40,7 @@
 <br>
 
 <h5>--------------- 流程图 --------------------------</h5>
-<img src="/getProcessImg/37501" width="500px" height="150px">
+<img src="/process/history/getProcessImg/37501" width="500px" height="150px">
 
 </body>
 </html>

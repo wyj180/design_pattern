@@ -1,7 +1,6 @@
 package com.neimeng.workflow.helloword;
 
 import com.neimeng.workflow.WorkflowApplicationTests;
-import com.neimeng.workflow.dao.DsProcessRelationMapper;
 import org.activiti.engine.RepositoryService;
 import org.activiti.engine.RuntimeService;
 import org.activiti.engine.TaskService;
@@ -28,9 +27,6 @@ public class HelloWorld01 extends WorkflowApplicationTests {
 
     @Autowired
     private TaskService taskService;
-
-    @Autowired
-    private DsProcessRelationMapper dsProcessRelationMapper;
 
     /**
      * 第一步：部署流程定义

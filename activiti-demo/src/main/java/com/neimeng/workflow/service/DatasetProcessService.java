@@ -1,0 +1,209 @@
+package com.neimeng.workflow.service;
+
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
+import com.neimeng.workflow.dao.ProcessDatasetMapper;
+import com.neimeng.workflow.dao.ProcessTaskMapper;
+import com.neimeng.workflow.entity.enums.ProcessStatusEnum;
+import com.neimeng.workflow.entity.params.ApplyDatasetInfo;
+import com.neimeng.workflow.entity.params.ProcessApproval;
+import com.neimeng.workflow.entity.pojo.ProcessDataset;
+import com.neimeng.workflow.entity.pojo.ProcessTask;
+import com.neimeng.workflow.entity.query.BasePageQuery;
+import com.neimeng.workflow.entity.vo.TaskVo;
+import com.neimeng.workflow.service.process.ProcessRuntimeService;
+import com.neimeng.workflow.service.process.ProcessTaskService;
+import com.neimeng.workflow.utils.WorkflowConstants;
+import org.activiti.engine.runtime.ProcessInstance;
+import org.activiti.engine.task.Task;
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.BeanUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import javax.servlet.http.HttpServletRequest;
+import java.util.*;
+
+/**
+ * 数据集-流程相关的Service
+ */
+@Service
+public class DatasetProcessService {
+
+    @Autowired
+    private ProcessRuntimeService processRuntimeService;
+
+    @Autowired
+    private ProcessTaskService processTaskService;
+
+    @Autowired
+    private ProcessDatasetMapper processDatasetMapper;
+
+    @Autowired
+    private ProcessTaskMapper processTaskMapper;
+
+    /**
+     * 获取用户需要处理的任务
+     *
+     * @param request
+     * @return
+     */
+    public PageInfo getUserTask(BasePageQuery pageQuery, HttpServletRequest request) {
+        // TODO 生产环境需要根据request获取当前用户信息
+        // 这里作为demo演示，假设当前登录人是userA
+        String userName = "userA";
+
+        // 分页查询用户的任务
+        PageHelper.startPage(pageQuery.getPageNum(), pageQuery.getPageSize());
+        List<Task> taskList = processTaskService.getTasksByUserId(userName);
+        PageInfo pageInfo = new PageInfo(taskList);
+
+        // 封装任务详细信息
+        List<TaskVo> taskDetails = getTaskDetails(pageInfo.getList());
+        pageInfo.setList(taskDetails);
+
+        return pageInfo;
+    }
+
+    /**
+     * 获取任务详情
+     *
+     * @param tasks
+     * @return
+     */
+    private List<TaskVo> getTaskDetails(List<Task> tasks) {
+        List<TaskVo> taskVos = new ArrayList<>();
+        for (Task task : tasks) {
+            TaskVo taskVo = new TaskVo();
+
+            // 任务基本信息
+            taskVo.setTaskId(task.getId());
+            taskVo.setTaskName(task.getName());
+
+            // 任务关联的数据集基本信息
+            ProcessDataset processDataset = processDatasetMapper.selectByProcessInstanceId(task.getProcessInstanceId());
+            BeanUtils.copyProperties(processDataset, taskVo);
+
+            taskVos.add(taskVo);
+        }
+        return taskVos;
+    }
+
+    /**
+     * 申请数据集
+     *
+     * @param datasetBaseInfo
+     * @param request
+     */
+    @Transactional(rollbackFor = Exception.class)
+    public void applyDataSet(ApplyDatasetInfo datasetBaseInfo, HttpServletRequest request) {
+        // TODO 生产环境需要根据request获取用户信息
+
+        // 这里作为demo演示，假设审批人是userA
+        String currentUserName = "userA";
+
+        // 1、启动流程实例, 获取当前用户相关的流程实例，如果当前用户没有创建的流程，则使用默认流程
+        String processDefKey = "helloworld";
+        ProcessInstance processInstance = processRuntimeService.startProcessInstanceByKey(processDefKey);
+
+        // TODO 对于当前任务，没有指派处理人，需要如何处理，指派处理人给谁
+
+        // 2、新增流程实例和业务关联信息
+        ProcessDataset processDataset = new ProcessDataset();
+        processDataset.setDatasetId(datasetBaseInfo.getDataSetId());
+        processDataset.setDatasetName(datasetBaseInfo.getDataSetName());
+        processDataset.setCreator(currentUserName);
+        processDataset.setPriority(datasetBaseInfo.getPriority().getCode());
+        processDataset.setProcInstId(processInstance.getId());
+        processDataset.setProcessStatus(ProcessStatusEnum.ONGOING.getCode());
+        processDatasetMapper.insert(processDataset);
+    }
+
+    /**
+     * 审批任务
+     *
+     * @param processApproval
+     * @return
+     */
+    @Transactional(rollbackFor = Exception.class)
+    public void approvalTask(ProcessApproval processApproval, HttpServletRequest request) {
+
+        // TODO 获取当前任务处理人,需要根据request获取得到
+        String currentUser = "userA";
+
+        // 获取任务信息
+        Task task = processTaskService.getTaskByTaskId(processApproval.getTaskId());
+
+        // 获取流程实例ID
+        String processInstanceId = task.getProcessInstanceId();
+
+        // 任务ID
+        String taskId = task.getId();
+
+        // 获取任务指定处理人
+        String assignee = task.getAssignee();
+
+        // 判断当前处理人是否和任务指派人一致
+        if (StringUtils.equals(currentUser, assignee)) {
+            throw new RuntimeException("当前任务审批人应该是: " + assignee);
+        }
+
+        // 处理任务，并设置审批流程变量，用户网关控制下一任务
+        Map<String, Object> variables = new HashMap<>();
+        variables.put(WorkflowConstants.APPROVAL_RESULT_VARIABLE_NAME, processApproval.getApprovalEnum().getCode());
+        processTaskService.completeTask(taskId, variables);
+
+        // 记录当前任务审批相关信息
+        saveTaskApprovalInfo(processApproval, currentUser, processInstanceId, taskId);
+
+        // 更新流程状态
+        updateProcessStatus(processInstanceId);
+    }
+
+    /**
+     * 记录当前任务审批相关信息
+     *
+     * @param processApproval
+     * @param currentUser
+     * @param processInstanceId
+     * @param taskId
+     */
+    private void saveTaskApprovalInfo(ProcessApproval processApproval, String currentUser, String processInstanceId, String taskId) {
+        ProcessTask processTask = new ProcessTask();
+        processTask.setTaskId(taskId);
+        processTask.setProcInstId(processInstanceId);
+        processTask.setApprovalUser(currentUser);
+        processTask.setApprovalTime(new Date());
+        processTask.setApprovalResult(processApproval.getApprovalEnum().getCode());
+        processTask.setApprovalComment(processApproval.getComment());
+        processTaskMapper.insertSelective(processTask);
+    }
+
+    /**
+     * 如果流程已经结束，则更新流程状态
+     *
+     * @param processInstanceId
+     */
+    private void updateProcessStatus(String processInstanceId) {
+        boolean isEnd = processRuntimeService.processIsEnd(processInstanceId);
+        if (isEnd) {
+            ProcessDataset processDataset = processDatasetMapper.selectByProcessInstanceId(processInstanceId);
+            ProcessDataset newProcessDataset = new ProcessDataset();
+            newProcessDataset.setId(processDataset.getId());
+            newProcessDataset.setProcessStatus(ProcessStatusEnum.FINISHED.getCode());
+            processDatasetMapper.updateByPrimaryKeySelective(newProcessDataset);
+        }
+    }
+
+    /**
+     * 获取流程审批历史记录
+     *
+     * @param processInstanceId
+     * @return
+     */
+    public List<ProcessTask> getApprovalHistory(String processInstanceId) {
+        List<ProcessTask> taskApprovalList = processTaskMapper.selectByProcessInstanceId(processInstanceId);
+        return taskApprovalList;
+    }
+}
