@@ -1,5 +1,7 @@
 package com.neimeng.workflow.entity.pojo;
 
+import com.alibaba.fastjson.annotation.JSONField;
+
 import java.util.Date;
 
 /**
@@ -20,25 +22,11 @@ public class ProcessDataset {
 
     private Integer priority;
 
+    @JSONField(format = "yyyy-MM-dd HH:mm:ss")
     private Date createTime;
 
+    @JSONField(format = "yyyy-MM-dd HH:mm:ss")
     private Date updateTime;
-
-    public ProcessDataset(Integer id, String creator, Integer processStatus, Integer datasetId, String procInstId, String datasetName, Integer priority, Date createTime, Date updateTime) {
-        this.id = id;
-        this.creator = creator;
-        this.processStatus = processStatus;
-        this.datasetId = datasetId;
-        this.procInstId = procInstId;
-        this.datasetName = datasetName;
-        this.priority = priority;
-        this.createTime = createTime;
-        this.updateTime = updateTime;
-    }
-
-    public ProcessDataset() {
-        super();
-    }
 
     public Integer getId() {
         return id;

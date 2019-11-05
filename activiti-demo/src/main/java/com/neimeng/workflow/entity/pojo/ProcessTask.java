@@ -1,7 +1,5 @@
 package com.neimeng.workflow.entity.pojo;
 
-import com.alibaba.fastjson.annotation.JSONField;
-
 import java.util.Date;
 
 /**
@@ -23,45 +21,13 @@ public class ProcessTask {
 
     private Integer approvalResult;
 
-    @JSONField(format = "yyyy-MM-dd HH:mm:ss")
     private Date approvalTime;
 
-    @JSONField(format = "yyyy-MM-dd HH:mm:ss")
     private Date createTime;
 
-    @JSONField(format = "yyyy-MM-dd HH:mm:ss")
     private Date updateTime;
 
     private String approvalComment;
-
-    public ProcessTask(Integer id, String taskId, String taskName, String procInstId, String approvalUser, Integer approvalResult, Date approvalTime, Date createTime, Date updateTime) {
-        this.id = id;
-        this.taskId = taskId;
-        this.taskName = taskName;
-        this.procInstId = procInstId;
-        this.approvalUser = approvalUser;
-        this.approvalResult = approvalResult;
-        this.approvalTime = approvalTime;
-        this.createTime = createTime;
-        this.updateTime = updateTime;
-    }
-
-    public ProcessTask(Integer id, String taskId, String taskName, String procInstId, String approvalUser, Integer approvalResult, Date approvalTime, Date createTime, Date updateTime, String approvalComment) {
-        this.id = id;
-        this.taskId = taskId;
-        this.taskName = taskName;
-        this.procInstId = procInstId;
-        this.approvalUser = approvalUser;
-        this.approvalResult = approvalResult;
-        this.approvalTime = approvalTime;
-        this.createTime = createTime;
-        this.updateTime = updateTime;
-        this.approvalComment = approvalComment;
-    }
-
-    public ProcessTask() {
-        super();
-    }
 
     public Integer getId() {
         return id;

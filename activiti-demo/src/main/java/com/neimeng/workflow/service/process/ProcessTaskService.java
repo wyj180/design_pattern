@@ -3,6 +3,8 @@ package com.neimeng.workflow.service.process;
 import java.io.InputStream;
 import java.util.List;
 import java.util.Map;
+
+import com.neimeng.workflow.entity.query.BasePageQuery;
 import lombok.extern.slf4j.Slf4j;
 import org.activiti.engine.TaskService;
 import org.activiti.engine.task.Attachment;
@@ -104,6 +106,17 @@ public class ProcessTaskService {
      */
     public List<Task> getTasksByUserId(String taskAssignee) {
         return taskService.createTaskQuery().taskAssignee(taskAssignee).orderByTaskCreateTime().desc().list();
+    }
+
+    /**
+     * 获取任务数量
+     *
+     * @param taskAssignee
+     * @return
+     */
+    public long getTaskCount(String taskAssignee) {
+        long count = taskService.createTaskQuery().taskAssignee(taskAssignee).count();
+        return count;
     }
 
     /**

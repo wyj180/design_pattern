@@ -15,7 +15,7 @@ import javax.validation.constraints.NotNull;
 @Getter
 @Setter
 @ToString
-@ApiModel
+@ApiModel("申请数据集参数")
 public class ApplyDatasetInfo {
 
     @ApiModelProperty(value = "数据集ID", required = true)

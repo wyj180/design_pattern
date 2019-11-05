@@ -1,6 +1,8 @@
 package com.neimeng.workflow.dao;
 
+import com.github.pagehelper.Page;
 import com.neimeng.workflow.entity.pojo.ProcessDataset;
+import com.neimeng.workflow.entity.vo.TaskVo;
 
 public interface ProcessDatasetMapper {
     int deleteByPrimaryKey(Integer id);
@@ -22,4 +24,19 @@ public interface ProcessDatasetMapper {
      * @return
      */
     ProcessDataset selectByProcessInstanceId(String processInstanceId);
+
+    /**
+     * 查询用户需要处理的任务
+     *
+     * @param assignee
+     * @return
+     */
+    Page<TaskVo> getTasksByAssignee(String assignee);
+
+    /**
+     * 分页查询数据集-流程信息
+     *
+     * @return
+     */
+    Page<ProcessDataset> selectList();
 }

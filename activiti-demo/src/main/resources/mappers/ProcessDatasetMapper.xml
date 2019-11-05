@@ -2,22 +2,32 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.neimeng.workflow.dao.ProcessDatasetMapper">
   <resultMap id="BaseResultMap" type="com.neimeng.workflow.entity.pojo.ProcessDataset">
-    <constructor>
-      <idArg column="id" javaType="java.lang.Integer" jdbcType="INTEGER" />
-      <arg column="creator" javaType="java.lang.String" jdbcType="VARCHAR" />
-      <arg column="process_status" javaType="java.lang.Integer" jdbcType="INTEGER" />
-      <arg column="dataset_id" javaType="java.lang.Integer" jdbcType="INTEGER" />
-      <arg column="proc_inst_id" javaType="java.lang.String" jdbcType="VARCHAR" />
-      <arg column="dataset_name" javaType="java.lang.String" jdbcType="VARCHAR" />
-      <arg column="priority" javaType="java.lang.Integer" jdbcType="INTEGER" />
-      <arg column="create_time" javaType="java.util.Date" jdbcType="TIMESTAMP" />
-      <arg column="update_time" javaType="java.util.Date" jdbcType="TIMESTAMP" />
-    </constructor>
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="creator" jdbcType="VARCHAR" property="creator" />
+    <result column="process_status" jdbcType="INTEGER" property="processStatus" />
+    <result column="dataset_id" jdbcType="INTEGER" property="datasetId" />
+    <result column="proc_inst_id" jdbcType="VARCHAR" property="procInstId" />
+    <result column="dataset_name" jdbcType="VARCHAR" property="datasetName" />
+    <result column="priority" jdbcType="INTEGER" property="priority" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
   </resultMap>
+
+  <resultMap id="TaskVoResultMap" type="com.neimeng.workflow.entity.vo.TaskVo" extends="BaseResultMap">
+    <result column="task_id" jdbcType="VARCHAR" property="taskId" />
+    <result column="task_name" jdbcType="VARCHAR" property="taskName" />
+  </resultMap>
+
   <sql id="Base_Column_List">
     id, creator, process_status, dataset_id, proc_inst_id, dataset_name, priority, create_time, 
     update_time
   </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from process_dataset
+    where id = #{id,jdbcType=INTEGER}
+  </select>
 
   <!-- 根据流程实例ID查询关联数据集信息 -->
   <select id="selectByProcessInstanceId" resultMap="BaseResultMap">
@@ -27,12 +37,21 @@
     where proc_inst_id = #{processInstanceId,jdbcType=VARCHAR}
   </select>
 
-  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-    select 
+  <!-- 查询用户任务 -->
+  <select id="getTasksByAssignee" resultMap="TaskVoResultMap">
+    select t1.ID_ task_id, t1.NAME_ task_name, t2.* from act_ru_task t1
+    join process_dataset t2 on t1.PROC_INST_ID_ = t2.proc_inst_id
+    where t1.ASSIGNEE_ = #{assignee,jdbcType=VARCHAR}
+  </select>
+
+  <!-- 查询列表信息 -->
+  <select id="selectList" resultMap="BaseResultMap">
+    select
     <include refid="Base_Column_List" />
     from process_dataset
-    where id = #{id,jdbcType=INTEGER}
+    order by create_time desc
   </select>
+
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from process_dataset
     where id = #{id,jdbcType=INTEGER}

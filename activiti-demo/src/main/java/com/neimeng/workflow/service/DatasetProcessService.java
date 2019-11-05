@@ -1,5 +1,6 @@
 package com.neimeng.workflow.service;
 
+import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.neimeng.workflow.dao.ProcessDatasetMapper;
@@ -11,6 +12,7 @@ import com.neimeng.workflow.entity.pojo.ProcessDataset;
 import com.neimeng.workflow.entity.pojo.ProcessTask;
 import com.neimeng.workflow.entity.query.BasePageQuery;
 import com.neimeng.workflow.entity.vo.TaskVo;
+import com.neimeng.workflow.exception.GlobalException;
 import com.neimeng.workflow.service.process.ProcessRuntimeService;
 import com.neimeng.workflow.service.process.ProcessTaskService;
 import com.neimeng.workflow.utils.SessionUtils;
@@ -21,6 +23,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.validation.annotation.Validated;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.*;
@@ -52,43 +55,14 @@ public class DatasetProcessService {
      * @param request
      * @return
      */
-    public PageInfo getUserTask(BasePageQuery pageQuery, HttpServletRequest request) {
+    public PageInfo<TaskVo> getUserTask(BasePageQuery pageQuery, HttpServletRequest request) {
         String userName = SessionUtils.getCurrentUserName(request);
 
         // 分页查询用户的任务
         PageHelper.startPage(pageQuery.getPageNum(), pageQuery.getPageSize());
-        List<Task> taskList = processTaskService.getTasksByUserId(userName);
-        PageInfo pageInfo = new PageInfo(taskList);
+        Page<TaskVo> taskVoPage = processDatasetMapper.getTasksByAssignee(userName);
 
-        // 封装任务详细信息
-        List<TaskVo> taskDetails = getTaskDetails(pageInfo.getList());
-        pageInfo.setList(taskDetails);
-
-        return pageInfo;
-    }
-
-    /**
-     * 获取任务详情
-     *
-     * @param tasks
-     * @return
-     */
-    private List<TaskVo> getTaskDetails(List<Task> tasks) {
-        List<TaskVo> taskVos = new ArrayList<>();
-        for (Task task : tasks) {
-            TaskVo taskVo = new TaskVo();
-
-            // 任务基本信息
-            taskVo.setTaskId(task.getId());
-            taskVo.setTaskName(task.getName());
-
-            // 任务关联的数据集基本信息
-            ProcessDataset processDataset = processDatasetMapper.selectByProcessInstanceId(task.getProcessInstanceId());
-            BeanUtils.copyProperties(processDataset, taskVo);
-
-            taskVos.add(taskVo);
-        }
-        return taskVos;
+        return new PageInfo(taskVoPage);
     }
 
     /**
@@ -98,7 +72,7 @@ public class DatasetProcessService {
      * @param request
      */
     @Transactional(rollbackFor = Exception.class)
-    public void applyDataSet(ApplyDatasetInfo datasetBaseInfo, HttpServletRequest request) {
+    public TaskVo applyDataSet(ApplyDatasetInfo datasetBaseInfo, HttpServletRequest request) {
         String currentUserName = SessionUtils.getCurrentUserName(request);
 
         // TODO 获取当前用户相关的流程实例，如果当前用户没有创建的流程，则使用默认流程
@@ -118,10 +92,12 @@ public class DatasetProcessService {
         processDatasetMapper.insertSelective(processDataset);
 
         // 3、如果是默认审批流程实例，则设置数据集创建人为审批人
+        Task task = processTaskService.getTaskByProInstId(processInstance.getId()).get(0);
         if (StringUtils.equals(processInstance.getProcessDefinitionKey(), DEFAULT_DS_PROCESS_KEY)) {
-            Task task = processTaskService.getTaskByProInstId(processInstance.getId()).get(0);
             processTaskService.assigneeTask(task.getId(), datasetBaseInfo.getDataSetCreator());
         }
+
+        return new TaskVo(task);
     }
 
     /**
@@ -137,7 +113,7 @@ public class DatasetProcessService {
         Task task = processTaskService.getTaskByTaskId(processApproval.getTaskId());
 
         if (task == null) {
-            throw new RuntimeException("该任务已经完成，请刷新页面");
+            throw new GlobalException("该任务已经完成，请刷新页面");
         }
 
         // 获取任务指定处理人
@@ -145,7 +121,7 @@ public class DatasetProcessService {
 
         // 判断当前处理人是否和任务指派人一致
         if (!StringUtils.equals(currentUser, assignee)) {
-            throw new RuntimeException("当前任务审批人应该是: " + assignee);
+            throw new GlobalException("当前任务审批人应该是: " + assignee);
         }
 
         // 处理任务，并设置审批流程变量，用户网关控制下一任务
