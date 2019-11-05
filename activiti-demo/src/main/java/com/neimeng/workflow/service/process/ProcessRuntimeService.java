@@ -150,4 +150,13 @@ public class ProcessRuntimeService {
         }
         return false;
     }
+
+    /**
+     * 挂起流程
+     *
+     * @param processInstanceId
+     */
+    public void suspendProcess(String processInstanceId) {
+        runtimeService.suspendProcessInstanceById(processInstanceId);
+    }
 }

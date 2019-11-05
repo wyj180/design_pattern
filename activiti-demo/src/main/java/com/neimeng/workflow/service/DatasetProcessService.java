@@ -110,9 +110,7 @@ public class DatasetProcessService {
         // 获取任务信息
         Task task = processTaskService.getTaskByTaskId(processApproval.getTaskId());
 
-        if (task == null) {
-            throw new GlobalException("该任务已经完成，请刷新页面");
-        }
+        validateTaskFinished(task);
 
         // 获取任务指定处理人
         String assignee = task.getAssignee();
@@ -161,12 +159,22 @@ public class DatasetProcessService {
     private void updateProcessStatus(String processInstanceId) {
         boolean isEnd = processRuntimeService.processIsEnd(processInstanceId);
         if (isEnd) {
-            ProcessDataset processDataset = processDatasetMapper.selectByProcessInstanceId(processInstanceId);
-            ProcessDataset newProcessDataset = new ProcessDataset();
-            newProcessDataset.setId(processDataset.getId());
-            newProcessDataset.setProcessStatus(ProcessStatusEnum.FINISHED.getCode());
-            processDatasetMapper.updateByPrimaryKeySelective(newProcessDataset);
+            updateProcessStatus(processInstanceId, ProcessStatusEnum.FINISHED);
         }
+    }
+
+    /**
+     * 更新流程状态
+     *
+     * @param processInstanceId
+     * @param processStatus
+     */
+    private void updateProcessStatus(String processInstanceId, ProcessStatusEnum processStatus) {
+        ProcessDataset processDataset = processDatasetMapper.selectByProcessInstanceId(processInstanceId);
+        ProcessDataset newProcessDataset = new ProcessDataset();
+        newProcessDataset.setId(processDataset.getId());
+        newProcessDataset.setProcessStatus(processStatus.getCode());
+        processDatasetMapper.updateByPrimaryKeySelective(newProcessDataset);
     }
 
     /**
@@ -178,5 +186,42 @@ public class DatasetProcessService {
     public List<ProcessTask> getApprovalHistory(String processInstanceId) {
         List<ProcessTask> taskApprovalList = processTaskMapper.selectByProcessInstanceId(processInstanceId);
         return taskApprovalList;
+    }
+
+    /**
+     * 终止流程
+     * <p>
+     * 说明：这里的挂起，并不是让流程走完，而是通过设置流程状态来实现
+     *
+     * @param processApproval
+     * @param request
+     */
+    public void stopProcess(ProcessApproval processApproval, HttpServletRequest request) {
+        String currentUser = SessionUtils.getCurrentUserName(request);
+
+        Task task = processTaskService.getTaskByTaskId(processApproval.getTaskId());
+        validateTaskFinished(task);
+
+        String processInstanceId = task.getProcessInstanceId();
+
+        // 将流程挂起
+        processRuntimeService.suspendProcess(processInstanceId);
+
+        // 更新流程状态为强制终止
+        updateProcessStatus(processInstanceId, ProcessStatusEnum.CLOSED);
+
+        // 添加当前任务处理纪录为终止
+        saveTaskApprovalInfo(processApproval, currentUser, task);
+    }
+
+    /**
+     * 验证任务是否已经完成
+     *
+     * @param task
+     */
+    private void validateTaskFinished(Task task) {
+        if (task == null) {
+            throw new GlobalException("该任务已完成或不存在，请刷新页面后重试");
+        }
     }
 }

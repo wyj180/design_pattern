@@ -56,4 +56,11 @@ public class DatasetProcessController {
         return Response.success(taskApprovalHisroties);
     }
 
+    @ApiOperation("终止流程")
+    @PostMapping("stopProcess")
+    public Response stopProcess(@RequestBody @Validated ProcessApproval processApproval, HttpServletRequest request) {
+        datasetProcessService.stopProcess(processApproval, request);
+        return Response.success();
+    }
+
 }

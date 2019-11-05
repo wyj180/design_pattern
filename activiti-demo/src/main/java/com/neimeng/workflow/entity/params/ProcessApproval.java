@@ -16,7 +16,7 @@ public class ProcessApproval {
     @NotNull
     private String taskId;
 
-    @ApiModelProperty(value = "审批状态: 1 同意，2 驳回，3 结束流程", required = true)
+    @ApiModelProperty(value = "审批状态: 1 同意，2 驳回，3 结束流程，强制终止", required = true)
     @NotNull
     @Pattern(regexp = "^(1|2|3)$", message = "{message.process.approve.option}")
     private String approvalStatus;
