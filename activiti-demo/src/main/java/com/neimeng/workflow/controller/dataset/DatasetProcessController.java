@@ -15,6 +15,9 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 
+/**
+ * 数据集流程Controller
+ */
 @Slf4j
 @RestController
 @RequestMapping("/process/dataset")
@@ -47,13 +50,13 @@ public class DatasetProcessController {
     }
 
     /**
-     * 获取用户需要处理的Task
+     * 审批任务
      *
      * @param request
      * @return
      */
-    @GetMapping("approvalTask")
-    public Response approvalTask(ProcessApproval processApproval, HttpServletRequest request) {
+    @PostMapping("approvalTask")
+    public Response approvalTask(@RequestBody ProcessApproval processApproval, HttpServletRequest request) {
         datasetProcessService.approvalTask(processApproval, request);
         return Response.success();
     }

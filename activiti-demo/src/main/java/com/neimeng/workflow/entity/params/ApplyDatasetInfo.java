@@ -26,6 +26,10 @@ public class ApplyDatasetInfo {
     @NotNull
     protected String dataSetName;
 
+    @ApiModelProperty(value = "数据集创建人", required = true)
+    @NotNull
+    protected String dataSetCreator;
+
     // 优先级
     private PriorityEnum priority;
 

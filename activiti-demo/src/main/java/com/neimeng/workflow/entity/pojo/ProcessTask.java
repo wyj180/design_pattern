@@ -1,5 +1,7 @@
 package com.neimeng.workflow.entity.pojo;
 
+import com.alibaba.fastjson.annotation.JSONField;
+
 import java.util.Date;
 
 /**
@@ -21,10 +23,13 @@ public class ProcessTask {
 
     private Integer approvalResult;
 
+    @JSONField(format = "yyyy-MM-dd HH:mm:ss")
     private Date approvalTime;
 
+    @JSONField(format = "yyyy-MM-dd HH:mm:ss")
     private Date createTime;
 
+    @JSONField(format = "yyyy-MM-dd HH:mm:ss")
     private Date updateTime;
 
     private String approvalComment;

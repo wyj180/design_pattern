@@ -54,14 +54,16 @@ public class test01 extends WorkflowApplicationTests {
      */
     @Test
     public void startProcessInstance() {
-        //根据流程定义的key启动流程
-        String processDefinitionKey = "processKey111";
+        for (int i = 0; i < 15; i++) {
+            //根据流程定义的key启动流程
+            String processDefinitionKey = "helloworld";
 
-        ProcessInstance pi = runtimeService
-                .startProcessInstanceByKey(processDefinitionKey);//使用流程定义的key启动流程实例，key对应bpmn文件中id的属性值，使用key值启动，默认是按照最新版本的流程定义启动
+            ProcessInstance pi = runtimeService
+                    .startProcessInstanceByKey(processDefinitionKey);//使用流程定义的key启动流程实例，key对应bpmn文件中id的属性值，使用key值启动，默认是按照最新版本的流程定义启动
 
-        System.out.println("流程实例ID:" + pi.getId());//流程实例ID    101
-        System.out.println("流程定义ID:" + pi.getProcessDefinitionId());//流程定义ID   key01:1:4
+            System.out.println("流程实例ID:" + pi.getId());//流程实例ID    101
+            System.out.println("流程定义ID:" + pi.getProcessDefinitionId());//流程定义ID   key01:1:4
+        }
 
         /**
          * 流程实例ID:5001

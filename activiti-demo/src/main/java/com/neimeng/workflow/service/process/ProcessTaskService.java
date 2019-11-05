@@ -59,7 +59,7 @@ public class ProcessTaskService {
      * @param taskId
      * @param userId
      */
-    public void setAssigneeTask(String taskId, String userId) {
+    public void assigneeTask(String taskId, String userId) {
         taskService.setAssignee(taskId, userId);
     }
 
@@ -81,13 +81,19 @@ public class ProcessTaskService {
      * @return
      */
     public Task getTaskByTaskId(String taskId) {
-        List<Task> tasks = taskService.createTaskQuery().taskId(taskId).list();
-        if (tasks == null || tasks.size() == 0) {
-            return null;
-        } else if (tasks.size() != 1) {
-            throw new RuntimeException("获取任务信息出错");
-        }
-        return tasks.get(0);
+        Task task = taskService.createTaskQuery().taskId(taskId).singleResult();
+        return task;
+    }
+
+    /**
+     * 根据流程实例id获取任务实例
+     *
+     * @param processInstanceId
+     * @return
+     */
+    public List<Task> getTaskByProInstId(String processInstanceId) {
+        List<Task> tasks = taskService.createTaskQuery().processInstanceId(processInstanceId).orderByTaskCreateTime().desc().list();
+        return tasks;
     }
 
     /**
