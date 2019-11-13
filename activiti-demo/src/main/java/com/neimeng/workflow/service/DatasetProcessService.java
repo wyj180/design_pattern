@@ -73,7 +73,6 @@ public class DatasetProcessService {
     public TaskVo applyDataSet(ApplyDatasetInfo datasetBaseInfo, HttpServletRequest request) {
         String currentUserName = SessionUtils.getCurrentUserName(request);
 
-        // TODO 获取当前用户相关的流程实例，如果当前用户没有创建的流程，则使用默认流程
         String processDefKey = DEFAULT_DS_PROCESS_KEY;
 
         // 1、启动流程实例
@@ -94,6 +93,8 @@ public class DatasetProcessService {
         if (StringUtils.equals(processInstance.getProcessDefinitionKey(), DEFAULT_DS_PROCESS_KEY)) {
             processTaskService.assigneeTask(task.getId(), datasetBaseInfo.getDataSetCreator());
         }
+
+        // 候选用户(可选多个)  候选角色(可选多个角色)
 
         return new TaskVo(task);
     }
