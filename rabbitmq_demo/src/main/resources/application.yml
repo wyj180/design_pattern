@@ -1,0 +1,27 @@
+server:
+  port: 8088
+
+# 集成邮件系统, 需要注意的是要开启邮箱的SMTP服务, 网易的163, qq的都需要开启后才能使用
+spring:
+  mail:
+    host: smtp.qq.com
+    port: 587
+    username: xxxxxx@qq.com
+    password: xxxxxxx
+    protocol: smtp
+    default-encoding: UTF-8
+
+  # 集成rabbitmq------------------------
+  rabbitmq:
+    host: 127.0.0.1
+    port: 5672
+    username: guest
+    password: guest
+    virtual-host: /
+    connection-timeout: 60000ms
+    # 支持发布返回
+    publisher-returns: true
+    cache:
+      channel:
+        size: 1
+

@@ -29,23 +29,3 @@ build/
 
 ### VS Code ###
 .vscode/
-
-
-*.class
-
-#temp file
-*.log
-*.cache
-*.diff
-*.patch
-*.tmp
-
-# system ignore
-.DS_Store
-Thumbs.db
-
-*/logs/*
-
-sqm.*.html
-
-.mvn/
