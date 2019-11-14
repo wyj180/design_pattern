@@ -11,8 +11,10 @@
 
     <!-- Spring 主配置文件 -->
 
+    <!-- 扫描com.mmall包下的注解 -->
     <context:component-scan base-package="com.mmall" annotation-config="true"/>
 
+    <!-- 这个是AOP的配置 -->
     <!--<context:annotation-config/>-->
     <aop:aspectj-autoproxy/>
 

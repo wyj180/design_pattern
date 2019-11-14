@@ -7,7 +7,6 @@ public class CourseActualBuilder extends CourseBuilder {
 
     private Course course = new Course();
 
-
     @Override
     public void buildCourseName(String courseName) {
         course.setCourseName(courseName);
