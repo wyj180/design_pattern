@@ -36,8 +36,6 @@ public class CartServiceImpl implements ICartService {
         if(productId == null || count == null){
             return ServerResponse.createByErrorCodeMessage(ResponseCode.ILLEGAL_ARGUMENT.getCode(),ResponseCode.ILLEGAL_ARGUMENT.getDesc());
         }
-
-
         Cart cart = cartMapper.selectCartByUserIdProductId(userId,productId);
         if(cart == null){
             //这个产品不在这个购物车里,需要新增一个这个产品的记录
@@ -78,13 +76,10 @@ public class CartServiceImpl implements ICartService {
         return this.list(userId);
     }
 
-
     public ServerResponse<CartVo> list (Integer userId){
         CartVo cartVo = this.getCartVoLimit(userId);
         return ServerResponse.createBySuccess(cartVo);
     }
-
-
 
     public ServerResponse<CartVo> selectOrUnSelect (Integer userId,Integer productId,Integer checked){
         cartMapper.checkedOrUncheckedProduct(userId,productId,checked);
@@ -97,20 +92,6 @@ public class CartServiceImpl implements ICartService {
         }
         return ServerResponse.createBySuccess(cartMapper.selectCartProductCount(userId));
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
     private CartVo getCartVoLimit(Integer userId){
         CartVo cartVo = new CartVo();
@@ -170,37 +151,12 @@ public class CartServiceImpl implements ICartService {
         return cartVo;
     }
 
+    // 判断用户的购物车是否已经全部勾选中
     private boolean getAllCheckedStatus(Integer userId){
         if(userId == null){
             return false;
         }
         return cartMapper.selectCartProductCheckedStatusByUserId(userId) == 0;
-
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 }

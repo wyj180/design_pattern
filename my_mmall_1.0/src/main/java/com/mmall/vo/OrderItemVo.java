@@ -19,6 +19,7 @@ public class OrderItemVo {
     private Integer productId;
 
     private String productName;
+
     private String productImage;
 
     private BigDecimal currentUnitPrice;

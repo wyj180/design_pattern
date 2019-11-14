@@ -117,7 +117,6 @@
     where id = #{id,jdbcType=INTEGER}
   </update>
 
-
   <select id="selectCartByUserIdProductId" resultMap="BaseResultMap" parameterType="map">
     SELECT
     <include refid="Base_Column_List"/>
@@ -126,8 +125,6 @@
     and product_id = #{productId}
   </select>
 
-
-
   <select id="selectCartByUserId" resultMap="BaseResultMap" parameterType="int">
     SELECT
     <include refid="Base_Column_List"/>
@@ -135,11 +132,11 @@
     where user_id = #{userId}
   </select>
 
+  <!-- 查询用户未勾选商品数量 1=已勾选,0=未勾选 -->
   <select id="selectCartProductCheckedStatusByUserId" resultType="int" parameterType="int">
     SELECT  count(1) from mmall_cart where checked = 0 and user_id = #{userId}
   </select>
-  
-  
+
   <delete id="deleteByUserIdProductIds" parameterType="map">
     delete from mmall_cart
     where user_id = #{userId}
@@ -151,8 +148,6 @@
     </if>
   </delete>
 
-
-
   <update id="checkedOrUncheckedProduct" parameterType="map">
     UPDATE  mmall_cart
     set checked = #{checked},
@@ -163,12 +158,9 @@
     </if>
   </update>
 
-
   <select id="selectCartProductCount" parameterType="int" resultType="int">
     select IFNULL(sum(quantity),0) as count from mmall_cart where user_id = #{userId}
   </select>
-
-
 
   <select id="selectCheckedCartByUserId" parameterType="int" resultMap="BaseResultMap">
     SELECT
@@ -177,20 +169,5 @@
     where user_id = #{userId}
     and checked = 1
   </select>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 </mapper>
