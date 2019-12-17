@@ -10,8 +10,10 @@
  */
 package com.example.es7.query;
 
+import com.example.es7.entity.EsFieldSort;
 import lombok.Data;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -32,11 +34,27 @@ public class EventListPageQuery extends BasePageQuery {
      */
     protected Map<String, Object[]> inConditions;
 
+    protected String startTime;
+
+    protected String endTime;
+
+    protected List<EsFieldSort> fieldSorts;
+
     public String getKey() {
         return key;
     }
 
     public void setKey(String key) {
         this.key = key;
+    }
+
+    // 构造方法
+    public EventListPageQuery() {
+        // 由于子类重写了该方法，因此，回去调用子类的改方法
+        setQueryCondition();
+    }
+
+    public void setQueryCondition() {
+        System.out.println("EventListPageQuery...");
     }
 }

@@ -11,11 +11,13 @@
 package com.example.es7.service;
 
 import com.example.es7.entity.EventOnePageVO;
+import com.example.es7.query.EventListPageQuery;
 import com.example.es7.query.EventOnePageQuery;
 import com.github.pagehelper.Page;
 
 import java.math.BigInteger;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 功能描述：<code>EventSearchService</code>
@@ -58,4 +60,12 @@ public interface EventSearchService {
      * @return
      */
     List<EventOnePageVO> searchOnePageId(EventOnePageQuery query);
+
+    /**
+     * 复杂分页查询Map类型结果集
+     *
+     * @param pageQuery
+     * @return
+     */
+    Page<Map<String,Object>> compositeSearchMapByPage(EventListPageQuery pageQuery, String index);
 }

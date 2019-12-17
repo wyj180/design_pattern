@@ -30,9 +30,12 @@ import org.springframework.util.CollectionUtils;
 import java.io.IOException;
 import java.math.BigInteger;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
-import static com.example.es7.constants.EventElasticSearchConstant.*;
+import static com.example.es7.constants.EventElasticSearchConstant.INDEX_EVENT_ONE_PAGE;
+import static com.example.es7.constants.EventElasticSearchConstant.INDEX_EVENT_SIF;
 
 /**
  * 功能描述：<code>ElasticSearchServiceImpl</code>
@@ -93,12 +96,15 @@ public class ElasticSearchServiceImpl implements EventSearchService {
         return searchResult.getResult();
     }
 
-    private ElasticSearchPageQuery convertPageQuery(EventListPageQuery listPageQuery) {
+    private ElasticSearchPageQuery convertPageQuery(EventListPageQuery listPageQuery){
         ElasticSearchPageQuery searchPageQuery = new ElasticSearchPageQuery();
         searchPageQuery.setQueryKey(listPageQuery.getKey());
         searchPageQuery.setInConditions(listPageQuery.getInConditions());
+        searchPageQuery.setStartTime(listPageQuery.getStartTime());
+        searchPageQuery.setEndTime(listPageQuery.getEndTime());
         searchPageQuery.setPageNum(listPageQuery.getPageNum());
         searchPageQuery.setPageSize(listPageQuery.getPageSize());
+        searchPageQuery.setFieldSorts(listPageQuery.getFieldSorts());
         return searchPageQuery;
     }
 
@@ -141,4 +147,36 @@ public class ElasticSearchServiceImpl implements EventSearchService {
         return warpToPage(searchPageQuery, searchResult);
     }
 
+    @Override
+    public Page<Map<String,Object>> compositeSearchMapByPage(EventListPageQuery pageQuery, String index) {
+        // 1、封装查询条件
+        ElasticSearchPageQuery searchPageQuery = convertPageQuery(pageQuery, index);
+
+        // 2、查询数据结果为MapconvertPageQuery
+        SearchResult<Map> searchResult = elasticSearchManager
+                .compositeSearchByFullText(searchPageQuery, "id_original", Map.class);
+
+        // 3、封装数据返回
+        Page<Map<String, Object>> page = convertResultToMap(searchPageQuery, searchResult);
+        return page;
+    }
+
+    /**
+     * 将es查询结果封装为Map
+     *
+     * @param searchPageQuery
+     * @param searchResult
+     * @return
+     */
+    private Page<Map<String, Object>> convertResultToMap(ElasticSearchPageQuery searchPageQuery, SearchResult<Map> searchResult) {
+        List<Map> result = searchResult.getResult();
+        List<Map<String, Object>> newResult = result.stream()
+                .map(map -> (Map<String, Object>) map)
+                .collect(Collectors.toList());
+
+        Page<Map<String, Object>> page = new Page<>(searchPageQuery.getPageNum(), searchPageQuery.getPageSize());
+        page.setTotal(searchResult.getTotal());
+        page.addAll(newResult);
+        return page;
+    }
 }

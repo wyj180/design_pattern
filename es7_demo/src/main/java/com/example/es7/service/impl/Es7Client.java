@@ -4,14 +4,18 @@ import com.example.es7.assistant.ElasticSearchDeleteRequest;
 import com.example.es7.assistant.ElasticSearchPageQuery;
 import com.example.es7.assistant.SearchResult;
 import com.example.es7.constants.EventElasticSearchConstant;
+import com.example.es7.constants.EventFormConstant;
+import com.example.es7.entity.EsFieldSort;
 import com.example.es7.service.ElasticSearchManager;
 import com.example.es7.utils.JsonUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.elasticsearch.action.search.SearchRequest;
 import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.client.RequestOptions;
 import org.elasticsearch.client.RestHighLevelClient;
 import org.elasticsearch.index.query.BoolQueryBuilder;
 import org.elasticsearch.index.query.QueryBuilders;
+import org.elasticsearch.index.query.RangeQueryBuilder;
 import org.elasticsearch.index.query.SimpleQueryStringBuilder;
 import org.elasticsearch.index.reindex.BulkByScrollResponse;
 import org.elasticsearch.index.reindex.DeleteByQueryRequest;
@@ -20,6 +24,8 @@ import org.elasticsearch.search.aggregations.metrics.CardinalityAggregationBuild
 import org.elasticsearch.search.aggregations.metrics.ParsedCardinality;
 import org.elasticsearch.search.builder.SearchSourceBuilder;
 import org.elasticsearch.search.collapse.CollapseBuilder;
+import org.elasticsearch.search.sort.FieldSortBuilder;
+import org.elasticsearch.search.sort.SortBuilders;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -110,8 +116,88 @@ public class Es7Client implements ElasticSearchManager {
         return searchForSource(searchRequest);
     }
 
-    @Override
     public SearchResult<String> compositeAggregationSearch(ElasticSearchPageQuery pageQuery, String groupByField) {
+        SearchRequest searchRequest = new SearchRequest(pageQuery.getIndices());
+        SearchSourceBuilder searchSourceBuilder = buildPageSearchSourceBuilder(pageQuery);
+
+        // 排序方式一：成功
+        //searchSourceBuilder.sort("id_original", SortOrder.DESC);
+
+        // 排序二： 成功
+//        FieldSortBuilder fieldSortBuilder = SortBuilders.fieldSort("id_original").order(SortOrder.DESC);
+//        searchSourceBuilder.sort(fieldSortBuilder);
+
+        addFieldSort(searchSourceBuilder, pageQuery.getFieldSorts());
+
+        // FieldSortBuilder sortBuilder = new FieldSortBuilder()
+
+        // 1、创建外层的boolBuilder
+        BoolQueryBuilder boolBuilder = QueryBuilders.boolQuery();
+
+        // 设置in(v1, v2)查询条件
+        setInQueryCondition(pageQuery, boolBuilder);
+
+        // 设置时间范围查询
+        //setTimeRangeCondition(pageQuery, boolBuilder);
+
+        // 根据流程状态范围查询，成功
+//        RangeQueryBuilder rangeQueryBuilder = QueryBuilders.rangeQuery("process_status");
+//        rangeQueryBuilder.from(10);
+//        rangeQueryBuilder.to(13);
+//        boolBuilder.must(rangeQueryBuilder);
+
+        // 根据是
+        RangeQueryBuilder rangeQueryBuilder = QueryBuilders.rangeQuery("gmt_create");
+        rangeQueryBuilder.from("1575946364");
+        //                      1576116739000
+        //                      1576116739
+        rangeQueryBuilder.to("1575979688");
+
+        boolBuilder.must(rangeQueryBuilder);
+
+        // 3、最外层的boolBuilder和sourceBuilder关联
+        searchSourceBuilder.query(boolBuilder);
+
+        // 排序
+//        SortBuilder sortBuilder = SortBuilders.fieldSort("id_original")
+//                .order(SortOrder.DESC);
+//
+//        boolBuilder.must(sortBuilder);
+
+        //query
+        SimpleQueryStringBuilder queryBuilder = QueryBuilders.simpleQueryStringQuery(pageQuery.getQueryKey());
+        boolBuilder.must(queryBuilder);
+
+        //collapse
+        CollapseBuilder collapseBuilder = new CollapseBuilder(groupByField);
+        searchSourceBuilder.collapse(collapseBuilder);
+
+        //aggs
+        CardinalityAggregationBuilder cardinalityAggregationBuilder = AggregationBuilders.cardinality("count").field(groupByField);
+        searchSourceBuilder.aggregation(cardinalityAggregationBuilder);
+
+        searchRequest.source(searchSourceBuilder);
+
+        return searchForSource(searchRequest);
+    }
+
+    /**
+     * 添加排序
+     *
+     * @param searchSourceBuilder
+     * @param fieldSorts
+     */
+    private void addFieldSort(SearchSourceBuilder searchSourceBuilder, List<EsFieldSort> fieldSorts) {
+        if (!CollectionUtils.isEmpty(fieldSorts)) {
+            for (EsFieldSort fieldSort : fieldSorts) {
+                FieldSortBuilder fieldSortBuilder = SortBuilders.fieldSort(fieldSort.getFieldName()).order(fieldSort.getOrder());
+                searchSourceBuilder.sort(fieldSortBuilder);
+            }
+        }
+    }
+
+    //@Override
+    public SearchResult<String> compositeAggregationSearch_bak(ElasticSearchPageQuery pageQuery, String groupByField) {
         SearchRequest searchRequest = new SearchRequest(pageQuery.getIndices());
         SearchSourceBuilder searchSourceBuilder = buildPageSearchSourceBuilder(pageQuery);
 
@@ -120,6 +206,9 @@ public class Es7Client implements ElasticSearchManager {
 
         // 设置in(v1, v2)查询条件
         setInQueryCondition(pageQuery, boolBuilder);
+
+        // 设置时间范围查询
+        //setTimeRangeCondition(pageQuery, boolBuilder);
 
         // 3、最外层的boolBuilder和sourceBuilder关联
         searchSourceBuilder.query(boolBuilder);
@@ -161,6 +250,32 @@ public class Es7Client implements ElasticSearchManager {
             }
             // inBuilder和外层的boolBuilder关联
             boolBuilder.must(inBuilder);
+        }
+    }
+
+    /**
+     * 设置时间范围查询
+     *
+     * @param pageQuery
+     * @param boolBuilder
+     */
+    private void setTimeRangeCondition(ElasticSearchPageQuery pageQuery, BoolQueryBuilder boolBuilder) {
+        String startTime = pageQuery.getStartTime();
+        String endTime = pageQuery.getEndTime();
+        // QueryBuilders.rangeQuery(字段名称)
+        RangeQueryBuilder rangeQueryBuilder = QueryBuilders.rangeQuery(EventFormConstant.CommonColumn.COLUMN_CREATE_TIME);
+        if (StringUtils.isNotBlank(startTime)) {
+            // 闭区间 >=
+            rangeQueryBuilder.from(startTime);
+            rangeQueryBuilder.includeLower(true); // 包含下界(默认包含)
+        }
+        if (StringUtils.isNotBlank(endTime)) {
+            // 闭区间 <=
+            rangeQueryBuilder.to(endTime);
+            rangeQueryBuilder.includeUpper(true);  // 包含上界(默认包含)
+        }
+        if(StringUtils.isNotBlank(startTime) || StringUtils.isNotBlank(endTime)){
+            boolBuilder.must(rangeQueryBuilder);
         }
     }
 
@@ -228,7 +343,7 @@ public class Es7Client implements ElasticSearchManager {
      * @param searchRequest
      * @return
      */
-    private SearchResult<String> searchForSource(SearchRequest searchRequest) {
+    public SearchResult<String> searchForSource(SearchRequest searchRequest) {
         SearchResult<String> result = new SearchResult<>(new ArrayList<>());
         try {
             SearchResponse response = client.search(searchRequest, RequestOptions.DEFAULT);
