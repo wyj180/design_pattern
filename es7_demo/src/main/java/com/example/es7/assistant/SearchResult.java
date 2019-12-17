@@ -27,19 +27,20 @@ import java.util.List;
 @Setter
 public class SearchResult<T> {
 
-	public SearchResult(){}
+    public SearchResult() {
+    }
 
-	public SearchResult(List<T> result) {
-		this.result = result;
-	}
+    public SearchResult(List<T> result) {
+        this.result = result;
+    }
 
-	private long total;
+    private long total;
 
-	private List<T> result;
+    private List<T> result;
 
-	private List<ParsedCardinality> aggregations;
+    private List<ParsedCardinality> aggregations;
 
-	public void add(T value) {
-		result.add(value);
-	}
+    public void add(T value) {
+        result.add(value);
+    }
 }

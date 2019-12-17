@@ -100,7 +100,7 @@ public class Es7ApplicationTests {
         // SimpleQueryStringBuilder queryBuilder = QueryBuilders.simpleQueryStringQuery("AKM"); // 只写AK时查询不到数据
         //SimpleQueryStringBuilder queryBuilder = QueryBuilders.simpleQueryStringQuery("liyq13@lenovo.com"); //
         // sourceBuilder.query(queryBuilder);
-       // sourceBuilder.query(queryBuilder);
+        // sourceBuilder.query(queryBuilder);
 
         // SearchReqest和SearchSourceBuilder关联
         searchRequest.source(sourceBuilder);
@@ -136,10 +136,10 @@ public class Es7ApplicationTests {
         //放入in后面的参数（相当于 select ... where column in (1,2,3)）
         //inBuilder2.should(QueryBuilders.matchQuery("supplier", "AKM"));
         //inBuilder2.should(QueryBuilders.matchQuery("supplier", "AKM"));
-       // boolBuilder.must(inBuilder2);
+        // boolBuilder.must(inBuilder2);
 
         // 二、like查询
-         //SimpleQueryStringBuilder queryBuilder = QueryBuilders.simpleQueryStringQuery("AKM"); // 只写AK时查询到数据了
+        //SimpleQueryStringBuilder queryBuilder = QueryBuilders.simpleQueryStringQuery("AKM"); // 只写AK时查询到数据了
         SimpleQueryStringBuilder queryBuilder = QueryBuilders.simpleQueryStringQuery("Affinity 13M"); // 只写AK时查询到数据了
         boolBuilder.must(queryBuilder); // 正确
 
@@ -224,6 +224,7 @@ public class Es7ApplicationTests {
 
     /**
      * 搜索
+     *
      * @param index
      * @param type
      * @param name
@@ -237,7 +238,7 @@ public class Es7ApplicationTests {
         sourceBuilder.query(boolBuilder);
         sourceBuilder.from(0);
         sourceBuilder.size(100); // 获取记录数，默认10
-        sourceBuilder.fetchSource(new String[] { "id", "name" }, new String[] {}); // 第一个是获取字段，第二个是过滤的字段，默认获取全部
+        sourceBuilder.fetchSource(new String[]{"id", "name"}, new String[]{}); // 第一个是获取字段，第二个是过滤的字段，默认获取全部
 
         SearchRequest searchRequest = new SearchRequest(index);
         searchRequest.types(type);

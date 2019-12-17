@@ -53,7 +53,7 @@ public class SwapNodesInPairs {
         ListNode node = null;
         ListNode delNode = node.next;
         node.val = delNode.val;
-        node.next =delNode.next;
+        node.next = delNode.next;
         delNode.next = null;
     }
 

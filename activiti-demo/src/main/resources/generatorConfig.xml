@@ -57,25 +57,25 @@
         <!--<javaClientGenerator type="XMLMAPPER" targetPackage="com.mmall.dao" targetProject=".\src\main\java">-->
         <javaClientGenerator type="XMLMAPPER" targetPackage="com.neimeng.workflow.dao" targetProject="./src/main/java">
             <!-- enableSubPackages:是否让schema作为包的后缀 -->
-            <property name="enableSubPackages" value="false" />
+            <property name="enableSubPackages" value="false"/>
         </javaClientGenerator>
 
 
-        <table tableName="process_task"
-               domainObjectName="ProcessTask"
-               enableCountByExample="false"
-               enableUpdateByExample="false"
-               enableDeleteByExample="false"
-               enableSelectByExample="false"
-               selectByExampleQueryId="false"></table>
+<!--        <table tableName="process_task"-->
+<!--               domainObjectName="ProcessTask"-->
+<!--               enableCountByExample="false"-->
+<!--               enableUpdateByExample="false"-->
+<!--               enableDeleteByExample="false"-->
+<!--               enableSelectByExample="false"-->
+<!--               selectByExampleQueryId="false"></table>-->
 
-        <table tableName="process_dataset"
-               domainObjectName="ProcessDataset"
-               enableCountByExample="false"
-               enableUpdateByExample="false"
-               enableDeleteByExample="false"
-               enableSelectByExample="false"
-               selectByExampleQueryId="false"></table>
+<!--        <table tableName="process_dataset"-->
+<!--               domainObjectName="ProcessDataset"-->
+<!--               enableCountByExample="false"-->
+<!--               enableUpdateByExample="false"-->
+<!--               enableDeleteByExample="false"-->
+<!--               enableSelectByExample="false"-->
+<!--               selectByExampleQueryId="false"></table>-->
 
         <!-- geelynote mybatis插件的搭建 -->
     </context>

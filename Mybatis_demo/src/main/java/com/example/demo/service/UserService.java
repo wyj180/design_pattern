@@ -106,7 +106,7 @@ public class UserService {
     public String updateUser(Integer id) {
         Map<String, Object> tableParams = new HashMap<>();
         //tableParams.put("userName", "用户名6667");
-       // tableParams.put("passWord", "密码6667");
+        // tableParams.put("passWord", "密码6667");
         tableParams.put("realName", "真实名字777");
 
         String tableName = "user";

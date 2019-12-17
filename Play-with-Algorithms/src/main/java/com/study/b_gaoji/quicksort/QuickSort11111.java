@@ -13,7 +13,7 @@ public class QuickSort11111 {
     private static int partition(int[] arr, int left, int right) {
 
         // 优化二：随机选择基准元素，把第一个元素和其他需要排序的元素交换即可
-        MySortTestHelper.swap( arr, left , (int)(Math.random()*(right-left+1))+left );
+        MySortTestHelper.swap(arr, left, (int) (Math.random() * (right - left + 1)) + left);
 
         int v = arr[left]; // v作为partition的对比元素
 

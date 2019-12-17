@@ -2,34 +2,34 @@ package com.study.email.demo01.entity;
 
 public class Message {
 
-	private String messageCode;
+    private String messageCode;
 
-	private String messageStatus;
+    private String messageStatus;
 
-	private String cause;
+    private String cause;
 
-	public String getMessageCode() {
-		return messageCode;
-	}
+    public String getMessageCode() {
+        return messageCode;
+    }
 
-	public void setMessageCode(String messageCode) {
-		this.messageCode = messageCode;
-	}
+    public void setMessageCode(String messageCode) {
+        this.messageCode = messageCode;
+    }
 
-	public String getMessageStatus() {
-		return messageStatus;
-	}
+    public String getMessageStatus() {
+        return messageStatus;
+    }
 
-	public void setMessageStatus(String messageStatus) {
-		this.messageStatus = messageStatus;
-	}
+    public void setMessageStatus(String messageStatus) {
+        this.messageStatus = messageStatus;
+    }
 
-	public String getCause() {
-		return cause;
-	}
+    public String getCause() {
+        return cause;
+    }
 
-	public void setCause(String cause) {
-		this.cause = cause;
-	}
+    public void setCause(String cause) {
+        this.cause = cause;
+    }
 
 }

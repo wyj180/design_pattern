@@ -5,7 +5,7 @@ import org.junit.Test;
 // 查找最小连续子数组，使得其和>=s
 public class MinSubArrayLen {
 
-    int[] nums = { 2, 3, 1, 2, 4, 3 };
+    int[] nums = {2, 3, 1, 2, 4, 3};
     int s = 8;
 
     @Test
@@ -22,14 +22,14 @@ public class MinSubArrayLen {
             } else {
                 sum -= nums[l++];
             }
-            if(sum >= s){
+            if (sum >= s) {
                 result = Math.min(result, (r - l + 1));
             }
         }
 
-        if(result == nums.length + 1){
+        if (result == nums.length + 1) {
             System.out.println("结果：0");
-        }else{
+        } else {
             System.out.println("结果：" + result);
             System.out.println("i = " + l + ",r = " + r);
         }

@@ -2,7 +2,7 @@ package com.study.email;
 
 import org.junit.Test;
 
-public class Test01 extends EmailApplicationTests{
+public class Test01 extends EmailApplicationTests {
 
 
     @Test

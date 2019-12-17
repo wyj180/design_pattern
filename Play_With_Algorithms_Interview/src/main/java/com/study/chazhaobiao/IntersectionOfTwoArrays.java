@@ -11,8 +11,8 @@ public class IntersectionOfTwoArrays {
     // set的使用
     @Test
     public void test01() {
-        int[] arr1 = {1,2,2,1};
-        int[] arr2 = {2,2};
+        int[] arr1 = {1, 2, 2, 1};
+        int[] arr2 = {2, 2};
 
         Set<Integer> record = new HashSet<>();
         for (int ele : arr1) {
@@ -37,8 +37,8 @@ public class IntersectionOfTwoArrays {
     // map的使用
     @Test
     public void test02() {
-        int[] arr1 = {1,2,2,1};
-        int[] arr2 = {2,2};
+        int[] arr1 = {1, 2, 2, 1};
+        int[] arr2 = {2, 2};
 
         Map<Integer, Integer> record = new TreeMap<>();
         for (int ele : arr1) {

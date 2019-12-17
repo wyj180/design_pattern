@@ -7,37 +7,37 @@ import java.util.List;
  */
 public class GraphData {
 
-	// 图形标题
-	private String title;
+    // 图形标题
+    private String title;
 
-	// 系列值
-	private List<StringKeyVo> serList;
+    // 系列值
+    private List<StringKeyVo> serList;
 
-	public GraphData(String title, List<StringKeyVo> serList) {
-		super();
-		this.title = title;
-		this.serList = serList;
-	}
+    public GraphData(String title, List<StringKeyVo> serList) {
+        super();
+        this.title = title;
+        this.serList = serList;
+    }
 
-	public String getTitle() {
-		return title;
-	}
+    public String getTitle() {
+        return title;
+    }
 
-	public void setTitle(String title) {
-		this.title = title;
-	}
+    public void setTitle(String title) {
+        this.title = title;
+    }
 
-	public List<StringKeyVo> getSerList() {
-		return serList;
-	}
+    public List<StringKeyVo> getSerList() {
+        return serList;
+    }
 
-	public void setSerList(List<StringKeyVo> serList) {
-		this.serList = serList;
-	}
+    public void setSerList(List<StringKeyVo> serList) {
+        this.serList = serList;
+    }
 
-	@Override
-	public String toString() {
-		return "GraphData [title=" + title + ", serList=" + serList + "]";
-	}
+    @Override
+    public String toString() {
+        return "GraphData [title=" + title + ", serList=" + serList + "]";
+    }
 
 }

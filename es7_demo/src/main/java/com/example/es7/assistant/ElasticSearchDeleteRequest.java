@@ -22,24 +22,24 @@ import lombok.Getter;
 @Getter
 public class ElasticSearchDeleteRequest {
 
-	private String indices[];
-	private String field;
-	private Object value;
+    private String indices[];
+    private String field;
+    private Object value;
 
-	private ElasticSearchDeleteRequest() {
-	}
+    private ElasticSearchDeleteRequest() {
+    }
 
-	private ElasticSearchDeleteRequest(String... indices) {
-		this.indices = indices;
-	}
+    private ElasticSearchDeleteRequest(String... indices) {
+        this.indices = indices;
+    }
 
-	public static final ElasticSearchDeleteRequest of(String... indices){
-		return new ElasticSearchDeleteRequest(indices);
-	}
+    public static final ElasticSearchDeleteRequest of(String... indices) {
+        return new ElasticSearchDeleteRequest(indices);
+    }
 
-	public void setField(String field,Object value){
-		this.field = field;
-		this.value = value;
-	}
+    public void setField(String field, Object value) {
+        this.field = field;
+        this.value = value;
+    }
 
 }

@@ -28,48 +28,49 @@ import java.util.stream.Collectors;
  */
 public final class JsonUtils {
 
-	private JsonUtils(){}
+    private JsonUtils() {
+    }
 
-	public static String toJSONStringIgnoreTransient(Object object) {
-		try(SerializeWriter out = new SerializeWriter()) {
-			JSONSerializer serializer = new JSONSerializer(out);
-			serializer.config(SerializerFeature.SkipTransientField, false);
-			serializer.config(SerializerFeature.WriteClassName, true);
-			serializer.write(object);
-			return out.toString();
-		}
-	}
+    public static String toJSONStringIgnoreTransient(Object object) {
+        try (SerializeWriter out = new SerializeWriter()) {
+            JSONSerializer serializer = new JSONSerializer(out);
+            serializer.config(SerializerFeature.SkipTransientField, false);
+            serializer.config(SerializerFeature.WriteClassName, true);
+            serializer.write(object);
+            return out.toString();
+        }
+    }
 
-	/**
-	 * @param jsonArray
-	 * @param clazz
-	 * @param <T>
-	 * @return
-	 */
-	public static <T> List<T> parseJson(List<String> jsonArray,Class<T> clazz) {
-		return jsonArray.stream()
-				.map(json -> JSON.parseObject(json, clazz))
-				.collect(Collectors.toList());
-	}
+    /**
+     * @param jsonArray
+     * @param clazz
+     * @param <T>
+     * @return
+     */
+    public static <T> List<T> parseJson(List<String> jsonArray, Class<T> clazz) {
+        return jsonArray.stream()
+                .map(json -> JSON.parseObject(json, clazz))
+                .collect(Collectors.toList());
+    }
 
-	/**
-	 * @param param
-	 * @param clazz
-	 * @param <T>
-	 * @return
-	 */
-	public static <T> T mapToObject(Map<String, Object> param, Class<T> clazz) {
-		return JSON.parseObject(JSON.toJSONString(param), clazz);
-	}
+    /**
+     * @param param
+     * @param clazz
+     * @param <T>
+     * @return
+     */
+    public static <T> T mapToObject(Map<String, Object> param, Class<T> clazz) {
+        return JSON.parseObject(JSON.toJSONString(param), clazz);
+    }
 
-	/**
-	 * @param params
-	 * @param clazz
-	 * @param <T>
-	 * @return
-	 */
-	public static <T> List<T> mapToObjects(List<Map<String, Object>> params, Class<T> clazz) {
-		return params.stream().map(param -> mapToObject(param, clazz)).collect(Collectors.toList());
-	}
+    /**
+     * @param params
+     * @param clazz
+     * @param <T>
+     * @return
+     */
+    public static <T> List<T> mapToObjects(List<Map<String, Object>> params, Class<T> clazz) {
+        return params.stream().map(param -> mapToObject(param, clazz)).collect(Collectors.toList());
+    }
 
 }

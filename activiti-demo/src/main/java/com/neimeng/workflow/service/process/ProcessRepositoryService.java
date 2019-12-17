@@ -59,7 +59,7 @@ public class ProcessRepositoryService {
      */
     public List<ProcessDefinition> getProcessDefinitionsByKey(String processDefinitionKey) {
         return repositoryService.createProcessDefinitionQuery().processDefinitionKey(processDefinitionKey)
-            .orderByProcessDefinitionVersion().desc().list();
+                .orderByProcessDefinitionVersion().desc().list();
     }
 
     /**
@@ -71,7 +71,7 @@ public class ProcessRepositoryService {
      */
     public ProcessDefinition getProcessDefinitionByKey(String processDefinitionKey) {
         return repositoryService.createProcessDefinitionQuery().processDefinitionKey(processDefinitionKey)
-            .orderByDeploymentId().desc().list().get(0);
+                .orderByDeploymentId().desc().list().get(0);
     }
 
     /**

@@ -34,7 +34,7 @@ public class CustomProcessDiagramCanvas extends DefaultProcessDiagramCanvas {
     protected String activityFontName = "宋体";
     protected String labelFontName = "宋体";
     protected String annotationFontName = "宋体";
-    
+
     private static volatile boolean flag = false;
 
     public CustomProcessDiagramCanvas(int width, int height, int minX, int minY, String imageType) {
@@ -42,7 +42,7 @@ public class CustomProcessDiagramCanvas extends DefaultProcessDiagramCanvas {
     }
 
     public CustomProcessDiagramCanvas(int width, int height, int minX, int minY, String imageType,
-            String activityFontName, String labelFontName, String annotationFontName, ClassLoader customClassLoader) {
+                                      String activityFontName, String labelFontName, String annotationFontName, ClassLoader customClassLoader) {
         super(width, height, minX, minY, imageType, activityFontName, labelFontName, annotationFontName,
                 customClassLoader);
     }
@@ -64,14 +64,14 @@ public class CustomProcessDiagramCanvas extends DefaultProcessDiagramCanvas {
     }
 
     public void drawSequenceflow(int[] xPoints, int[] yPoints, boolean conditional, boolean isDefault,
-            boolean highLighted, double scaleFactor, Color color) {
+                                 boolean highLighted, double scaleFactor, Color color) {
         drawConnection(xPoints, yPoints, conditional, isDefault, "sequenceFlow", AssociationDirection.ONE, highLighted,
                 scaleFactor, color);
     }
 
     public void drawConnection(int[] xPoints, int[] yPoints, boolean conditional, boolean isDefault,
-            String connectionType, AssociationDirection associationDirection, boolean highLighted, double scaleFactor,
-            Color color) {
+                               String connectionType, AssociationDirection associationDirection, boolean highLighted, double scaleFactor,
+                               Color color) {
 
         Paint originalPaint = g.getPaint();
         Stroke originalStroke = g.getStroke();
@@ -173,7 +173,7 @@ public class CustomProcessDiagramCanvas extends DefaultProcessDiagramCanvas {
         if (minX >= 0 && minY >= 0) {
             imageToSerialize = processDiagram.getSubimage(
                     minX - WorkflowConstants.PROCESS_PADDING,
-                    minY - WorkflowConstants.PROCESS_PADDING, 
+                    minY - WorkflowConstants.PROCESS_PADDING,
                     canvasWidth - minX + WorkflowConstants.PROCESS_PADDING,
                     canvasHeight - minY + WorkflowConstants.PROCESS_PADDING);
         }
@@ -181,21 +181,21 @@ public class CustomProcessDiagramCanvas extends DefaultProcessDiagramCanvas {
     }
 
     @Override
-    public void initialize(String imageType) {  
-        this.processDiagram = new BufferedImage(canvasWidth, canvasHeight, BufferedImage.TYPE_INT_ARGB);    
+    public void initialize(String imageType) {
+        this.processDiagram = new BufferedImage(canvasWidth, canvasHeight, BufferedImage.TYPE_INT_ARGB);
         this.g = processDiagram.createGraphics();
 
         g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
         g.setPaint(Color.black);
-        
+
         Font font = new Font(activityFontName, Font.BOLD, FONT_SIZE);
-        g.setFont(font);   
-        this.fontMetrics = g.getFontMetrics();      
-        
+        g.setFont(font);
+        this.fontMetrics = g.getFontMetrics();
+
         LABEL_FONT = new Font(labelFontName, Font.ITALIC, 10);
         ANNOTATION_FONT = new Font(annotationFontName, Font.PLAIN, FONT_SIZE);
         //优化加载速度
-        if(flag) {
+        if (flag) {
             return;
         }
         try {
@@ -209,7 +209,7 @@ public class CustomProcessDiagramCanvas extends DefaultProcessDiagramCanvas {
             SHELL_TASK_IMAGE = ImageIO.read(ReflectUtil.getResource("org/activiti/icons/shellTask.png", customClassLoader));
             CAMEL_TASK_IMAGE = ImageIO.read(ReflectUtil.getResource("org/activiti/icons/camelTask.png", customClassLoader));
             MULE_TASK_IMAGE = ImageIO.read(ReflectUtil.getResource("org/activiti/icons/muleTask.png", customClassLoader));
-            
+
             TIMER_IMAGE = ImageIO.read(ReflectUtil.getResource("org/activiti/icons/timer.png", customClassLoader));
             COMPENSATE_THROW_IMAGE = ImageIO.read(ReflectUtil.getResource("org/activiti/icons/compensate-throw.png", customClassLoader));
             COMPENSATE_CATCH_IMAGE = ImageIO.read(ReflectUtil.getResource("org/activiti/icons/compensate.png", customClassLoader));
@@ -240,12 +240,12 @@ public class CustomProcessDiagramCanvas extends DefaultProcessDiagramCanvas {
           MESSAGE_CATCH_IMAGE = ImageIO.read(new FileInputStream(baseUrl+"message.png"));
           SIGNAL_THROW_IMAGE = ImageIO.read(new FileInputStream(baseUrl+"signal-throw.png"));
           SIGNAL_CATCH_IMAGE = ImageIO.read(new FileInputStream(baseUrl+"signal.png"));*/
-          flag = true;
+            flag = true;
         } catch (IOException e) {
-          flag = false;
-          LOGGER.warn("Could not load image for process diagram creation: {}", e.getMessage());
-        }  
+            flag = false;
+            LOGGER.warn("Could not load image for process diagram creation: {}", e.getMessage());
+        }
     }
 
-    
+
 }

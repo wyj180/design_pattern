@@ -18,12 +18,13 @@ public class MyMaxHeap2 {
 
     /**
      * 对n个元素进行shiftDown操作
+     *
      * @param arr
      * @param n
      */
     public void shiftDown(int[] arr, int n, int i) {
         while (2 * i + 1 <= n - 1) {
-            int j = 2 * i + 1 ; // 左右孩子中数值更大的下标，默认取左孩子
+            int j = 2 * i + 1; // 左右孩子中数值更大的下标，默认取左孩子
             if (j + 1 <= n - 1 && arr[j + 1] > arr[j]) {
                 j++;
             }

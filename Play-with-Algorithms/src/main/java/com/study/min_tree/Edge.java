@@ -47,9 +47,9 @@ public class Edge<Weight extends Number & Comparable> implements Comparable<Edge
     public int compareTo(Edge that) {
         if (weight.compareTo(that.wt()) < 0) {
             return -1;
-        }else if (weight.compareTo(that.wt()) > 0) {
+        } else if (weight.compareTo(that.wt()) > 0) {
             return +1;
-        }else {
+        } else {
             return 0;
         }
     }

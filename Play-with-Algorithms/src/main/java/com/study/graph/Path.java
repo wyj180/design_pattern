@@ -24,9 +24,9 @@ public class Path {
         }
     }
 
-    public Path(DenseGraph graph, int s){
+    public Path(DenseGraph graph, int s) {
         G = graph;
-        assert  s >= 0 && s < G.V();
+        assert s >= 0 && s < G.V();
 
         vivited = new boolean[G.V()];
         from = new int[G.V()];

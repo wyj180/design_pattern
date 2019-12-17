@@ -18,7 +18,7 @@ public class InterviewQuestion {
 
         for (int i = 0; i < s.length(); i++) {
             int index = s.charAt(i) - 'a';
-            if(record[index] == 1){
+            if (record[index] == 1) {
                 System.out.println("result = " + i);
                 break;
             }
@@ -33,7 +33,7 @@ public class InterviewQuestion {
         System.out.println("a = " + a);
         System.out.println("b = " + b1);
         System.out.println("b = " + c1);
-        System.out.println((char)c1);
+        System.out.println((char) c1);
     }
 
     @Test

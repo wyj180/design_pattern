@@ -135,15 +135,15 @@ public class BST<Key extends Comparable<Key>, Value> {
         }
     }
 
-    public Node min(Node root){
-        if(root.left == null){
+    public Node min(Node root) {
+        if (root.left == null) {
             return root;
         }
         return min(root.left);
     }
 
-    public Node max(Node root){
-        if(root.right == null){
+    public Node max(Node root) {
+        if (root.right == null) {
             return root;
         }
         return max(root.left);

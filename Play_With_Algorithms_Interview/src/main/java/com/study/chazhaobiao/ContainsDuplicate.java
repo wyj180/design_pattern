@@ -11,17 +11,17 @@ public class ContainsDuplicate {
 
     // 思路：使用滑动窗口，使用set来记录滑动窗口
     @Test
-    public void test01(){
-        int [] arr = {};
+    public void test01() {
+        int[] arr = {};
         int k = 2;
 
         Set<Integer> temp = new HashSet<>();
 
         for (int i = 0; i < arr.length; i++) {
-            if(temp.contains(arr[i])){ // 情况一：查找成功
+            if (temp.contains(arr[i])) { // 情况一：查找成功
                 System.out.println("查找成功");
                 break;
-            }else{ //查找失败
+            } else { //查找失败
                 temp.add(arr[i]);
                 if (temp.size() == k + 1) {
                     temp.remove(arr[i - k]);

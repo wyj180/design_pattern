@@ -19,7 +19,7 @@ public class EmailApplication {
 
     @PostConstruct
     public void test01() {
-       // System.out.println("aaaa ====== " + name);
+        // System.out.println("aaaa ====== " + name);
         System.out.println("启动成功====================");
     }
 

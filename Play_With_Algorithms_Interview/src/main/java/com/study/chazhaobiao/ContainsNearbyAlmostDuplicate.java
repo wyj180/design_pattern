@@ -22,13 +22,13 @@ public class ContainsNearbyAlmostDuplicate {
 
         for (int i = 0; i < arr.length; i++) {
             Integer dis = record.ceiling(arr[i] - t);
-            if(dis != null && dis <= arr[i] +t){ // 成功找到的情况
+            if (dis != null && dis <= arr[i] + t) { // 成功找到的情况
                 System.out.println("查找成功");
-                return ;
-            }else{
+                return;
+            } else {
                 // 没有找到的情况
                 record.add(arr[i]);
-                if(record.size() == k + 1){ // 窗口滑动操作
+                if (record.size() == k + 1) { // 窗口滑动操作
                     record.remove(arr[i - k]);
                 }
             }

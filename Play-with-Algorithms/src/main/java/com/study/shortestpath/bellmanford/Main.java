@@ -16,22 +16,21 @@ public class Main {
 
         int s = 0;
         BellmanFord<Integer> bellmanFord = new BellmanFord<Integer>(g, s);
-        if( bellmanFord.negativeCycle() )
+        if (bellmanFord.negativeCycle())
             System.out.println("The graph contain negative cycle!");
         else
-            for( int i = 0 ; i < V ; i ++ ){
-                if(i == s)
+            for (int i = 0; i < V; i++) {
+                if (i == s)
                     continue;
 
-                if(bellmanFord.hasPathTo(i)) {
+                if (bellmanFord.hasPathTo(i)) {
                     System.out.println("Shortest Path to " + i + " : " + bellmanFord.shortestPathTo(i));
                     bellmanFord.showPath(i);
-                }
-                else
-                    System.out.println("No Path to " + i );
+                } else
+                    System.out.println("No Path to " + i);
 
-            System.out.println("----------");
-        }
+                System.out.println("----------");
+            }
 
     }
 }

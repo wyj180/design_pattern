@@ -18,15 +18,15 @@ import static com.study.ppt_demo.test01.EventOnePageConstant.*;
 
 /**
  * 1_使用两个模板导出ppt，修改textBox的值时出现错误
- *
-   报错：在处理复制出来的ppt页面中的textBox时，报错
-   Exception in thread "main" org.apache.xmlbeans.impl.values.XmlValueDisconnectedException
+ * <p>
+ * 报错：在处理复制出来的ppt页面中的textBox时，报错
+ * Exception in thread "main" org.apache.xmlbeans.impl.values.XmlValueDisconnectedException
  */
 public class TestCreatePPT9 {
 
-    static  Map<String, Object> baseInfo = new HashMap<>();
+    static Map<String, Object> baseInfo = new HashMap<>();
 
-    static  {
+    static {
         baseInfo.put(VAR_PRODUCT, "var_product");
         baseInfo.put(VAR_SUPPLIER, "var_supplier");
         baseInfo.put(VAR_SOURCE, "var_source");
@@ -43,7 +43,7 @@ public class TestCreatePPT9 {
         XMLSlideShow ppt = new XMLSlideShow(inputStream);
 
         // 根据两个模板创建多页ppt
-         createNewSlideByTemplate(ppt);
+        createNewSlideByTemplate(ppt);
 
         // add first slide
         List<XSLFSlide> slides = ppt.getSlides();

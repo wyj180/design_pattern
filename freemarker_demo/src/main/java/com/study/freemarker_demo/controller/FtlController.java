@@ -14,17 +14,17 @@ public class FtlController {
 
     @RequestMapping(value = "index")
     public String index(ModelMap map) {
-        map.put("users",parseUsers());
+        map.put("users", parseUsers());
         return "index2";
     }
 
-    private List<Map> parseUsers(){
-        List<Map> list= new ArrayList<>();
-        for(int i=0;i<10;i++){
-            Map map= new HashMap();
-            map.put("name","kevin_"+i);
-            map.put("age",10+i);
-            map.put("phone","1860291105"+i);
+    private List<Map> parseUsers() {
+        List<Map> list = new ArrayList<>();
+        for (int i = 0; i < 10; i++) {
+            Map map = new HashMap();
+            map.put("name", "kevin_" + i);
+            map.put("age", 10 + i);
+            map.put("phone", "1860291105" + i);
             list.add(map);
         }
         return list;

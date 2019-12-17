@@ -55,7 +55,7 @@ public class MyIndexMaxHeap {
     private void shiftDown(int i) {
         while (2 * i <= count) {
             int j = 2 * i;
-            if (j + 1 <= count && data[index[j]] < data[index[j + 1 ]]) {
+            if (j + 1 <= count && data[index[j]] < data[index[j + 1]]) {
                 j++;
             }
 

@@ -8,14 +8,14 @@ public class LongestSubstring {
     String s = "bbb";
 
     @Test
-    public void test02(){
+    public void test02() {
         int[] seq = new int[256];
         char c = s.charAt(0);
         System.out.println(c);
     }
 
     @Test
-    public void test01(){
+    public void test01() {
         int len = s.length();
 
         int left = 0, right = 0;
@@ -27,13 +27,13 @@ public class LongestSubstring {
         while (l < len) {
             if (r + 1 < len && seq[s.charAt(r + 1)] == 0) {
                 seq[s.charAt(r + 1)] = 1;
-                r ++;
+                r++;
             } else {
                 seq[s.charAt(l++)] = 0;
             }
 
             // 比较大小
-            if(res < (r - l + 1)){
+            if (res < (r - l + 1)) {
                 res = r - l + 1;
                 left = l;
                 right = r;

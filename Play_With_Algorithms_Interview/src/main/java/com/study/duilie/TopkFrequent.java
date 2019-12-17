@@ -14,7 +14,7 @@ public class TopkFrequent {
     @Test
     public void test01() {
         int k = 2;
-        int[] arr = {1,1,1,2,2,3};
+        int[] arr = {1, 1, 1, 2, 2, 3};
 
         // 构建 <元素，出现频率>
         Map<Integer, Integer> map = new HashMap<>();
@@ -34,10 +34,10 @@ public class TopkFrequent {
             }
         });
 
-        for(Integer key : map.keySet()){
+        for (Integer key : map.keySet()) {
             Integer value = map.get(key);
-            if(queue.size() == k){ // 元素个数已经达到k个,根据value的大小判断是否保留该元素
-                if(queue.peek().getKey() < value){
+            if (queue.size() == k) { // 元素个数已经达到k个,根据value的大小判断是否保留该元素
+                if (queue.peek().getKey() < value) {
                     queue.poll();
                     queue.add(new Pair<>(value, key));
                 }
@@ -47,7 +47,7 @@ public class TopkFrequent {
         }
 
         // 遍历queue
-        while (!queue.isEmpty()){
+        while (!queue.isEmpty()) {
             System.out.print(queue.poll().getValue() + " ");
         }
     }
@@ -68,7 +68,7 @@ public class TopkFrequent {
         queue.add(v2);
         queue.add(v3);
 
-        while (!queue.isEmpty()){
+        while (!queue.isEmpty()) {
             System.out.println(queue.poll().getKey());
         }
     }

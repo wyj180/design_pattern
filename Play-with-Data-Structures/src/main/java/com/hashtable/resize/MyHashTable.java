@@ -52,7 +52,7 @@ public class MyHashTable<K, V> {
         if (map.containsKey(key)) {
             ret = map.remove(key);
             size--;
-            if(size < lowerTol * M && M / 2 >= initCapacity){
+            if (size < lowerTol * M && M / 2 >= initCapacity) {
                 resize(M / 2);
             }
         }

@@ -71,7 +71,7 @@ public class DenseWeightedGraph<Weight extends Number & Comparable>
             for (int j = 0; j < n; j++) {
                 if (g[i][j] != null) {
                     System.out.print(g[i][j].wt() + "\t");
-                }else {
+                } else {
                     System.out.print("NULL\t");
                 }
             }

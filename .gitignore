@@ -4,6 +4,8 @@ target/
 !**/src/main/**
 !**/src/test/**
 
+.log
+
 ### STS ###
 .apt_generated
 .classpath
@@ -29,23 +31,3 @@ build/
 
 ### VS Code ###
 .vscode/
-
-
-*.class
-
-#temp file
-*.log
-*.cache
-*.diff
-*.patch
-*.tmp
-
-# system ignore
-.DS_Store
-Thumbs.db
-
-*/logs/*
-
-sqm.*.html
-
-.mvn/

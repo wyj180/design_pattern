@@ -28,43 +28,43 @@ import java.util.stream.Collectors;
 @Data
 public class ElasticSearchPageQuery {
 
-	private int pageNum = 1;
-	private int pageSize = 10;
-	private boolean isPage = true;
+    private int pageNum = 1;
+    private int pageSize = 10;
+    private boolean isPage = true;
 
-	/**
-	 * 索引
-	 */
-	private List<String> indices;
+    /**
+     * 索引
+     */
+    private List<String> indices;
 
-	public ElasticSearchPageQuery(){
-		indices = new ArrayList<>();
-	}
+    public ElasticSearchPageQuery() {
+        indices = new ArrayList<>();
+    }
 
-	/**
-	 * 查询关键字
-	 */
-	private String queryKey;
+    /**
+     * 查询关键字
+     */
+    private String queryKey;
 
-	/**
-	 * 字段in条件查询
-	 * 示例: field1 in('value1', 'value2') and field2 in('value3', 'value4')
-	 */
-	private Map<String, Object[]> inConditions;
+    /**
+     * 字段in条件查询
+     * 示例: field1 in('value1', 'value2') and field2 in('value3', 'value4')
+     */
+    private Map<String, Object[]> inConditions;
 
-	public int getFrom(){
-		return (pageNum - 1) * pageSize;
-	}
+    public int getFrom() {
+        return (pageNum - 1) * pageSize;
+    }
 
-	public void addIndex(String index) {
-		indices.add(index);
-	}
+    public void addIndex(String index) {
+        indices.add(index);
+    }
 
-	public void addIndices(String... indices){
-		this.indices.addAll(Arrays.stream(indices).collect(Collectors.toList()));
-	}
+    public void addIndices(String... indices) {
+        this.indices.addAll(Arrays.stream(indices).collect(Collectors.toList()));
+    }
 
-	public String[] getIndices(){
-		return indices.stream().toArray(String[]::new);
-	}
+    public String[] getIndices() {
+        return indices.stream().toArray(String[]::new);
+    }
 }

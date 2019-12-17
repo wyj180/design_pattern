@@ -15,19 +15,20 @@ import java.io.InputStream;
 @RestController
 @RequestMapping("service")
 public class StencilsetRestResource {
-  
-/**
- * 获取流程json文件
- * @return
- */
-  @RequestMapping(value="/editor/stencilset", method = RequestMethod.GET, produces = "application/json;charset=utf-8")
-  @ResponseBody
-  public String getStencilset() {
-    InputStream stencilsetStream = this.getClass().getClassLoader().getResourceAsStream("stencilset.json");
-    try {
-      return IOUtils.toString(stencilsetStream, "utf-8");
-    } catch (Exception e) {
-      throw new ActivitiException("Error while loading stencil set", e);
+
+    /**
+     * 获取流程json文件
+     *
+     * @return
+     */
+    @RequestMapping(value = "/editor/stencilset", method = RequestMethod.GET, produces = "application/json;charset=utf-8")
+    @ResponseBody
+    public String getStencilset() {
+        InputStream stencilsetStream = this.getClass().getClassLoader().getResourceAsStream("stencilset.json");
+        try {
+            return IOUtils.toString(stencilsetStream, "utf-8");
+        } catch (Exception e) {
+            throw new ActivitiException("Error while loading stencil set", e);
+        }
     }
-  }
 }

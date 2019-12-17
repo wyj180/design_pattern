@@ -15,7 +15,7 @@ public class Main {
         System.out.println();
 
         DenseWeightedGraph<Double> g2 = new DenseWeightedGraph<Double>(8, false);
-        ReadWeightedGraph readGraph2 = new ReadWeightedGraph(g2 , filename );
+        ReadWeightedGraph readGraph2 = new ReadWeightedGraph(g2, filename);
         System.out.println("test G1 in Dense Graph:");
         g2.show();
 

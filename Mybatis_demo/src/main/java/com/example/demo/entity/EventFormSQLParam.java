@@ -39,7 +39,7 @@ public class EventFormSQLParam {
      */
     Map<String, String> orders;
 
-    public EventFormSQLParam(){
+    public EventFormSQLParam() {
 
     }
 

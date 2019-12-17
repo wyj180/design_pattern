@@ -38,12 +38,12 @@ public class MyHashTable<K, V> {
         TreeMap<K, V> map = hashtable[hash(key)];
         if (map.containsKey(key)) {
             map.put(key, value);
-        }else {
+        } else {
             map.put(key, value);
             size++; // 疑问：这里的size++是否有误，为什么上一个if里面没有++
 
             if (size >= upperTol * M) {
-                capacityIndex ++;
+                capacityIndex++;
                 resize(capacity[capacityIndex]);
             }
         }

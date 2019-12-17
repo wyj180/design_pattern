@@ -8,7 +8,7 @@ import java.util.Map;
 public class TwoSum {
 
     public static void main(String[] args) {
-        int nums[] = {2,7,11,15};
+        int nums[] = {2, 7, 11, 15};
         int target = 9;
 
         int[] ints = twoSum(nums, target);
@@ -23,7 +23,7 @@ public class TwoSum {
             int component = target - nums[i];
 
             if (tempMap.containsKey(component)) { // 查找成功的情况
-                int[] res = { i, tempMap.get(component) };
+                int[] res = {i, tempMap.get(component)};
                 return res;
             } else {
                 tempMap.put(nums[i], i);

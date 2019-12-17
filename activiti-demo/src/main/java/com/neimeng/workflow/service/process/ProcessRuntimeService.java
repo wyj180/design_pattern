@@ -1,7 +1,5 @@
 package com.neimeng.workflow.service.process;
 
-import java.util.List;
-import java.util.Map;
 import lombok.extern.slf4j.Slf4j;
 import org.activiti.engine.RuntimeService;
 import org.activiti.engine.impl.persistence.entity.ExecutionEntity;
@@ -11,6 +9,9 @@ import org.activiti.engine.task.Task;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
+import java.util.Map;
 
 /**
  * 运行中的流程Service
@@ -130,12 +131,12 @@ public class ProcessRuntimeService {
      */
     public List<Execution> getExecutionEntityByPKey(String processDefinitionKey) {
         return runtimeService.createExecutionQuery().processDefinitionKey(processDefinitionKey)
-            .orderByProcessInstanceId().desc().list();
+                .orderByProcessInstanceId().desc().list();
     }
 
     /**
      * 判断流程是否结束
-     *
+     * <p>
      * 说明：true:已结束   false:还没结束
      *
      * @param processInstanceId

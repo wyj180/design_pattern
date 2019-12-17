@@ -37,7 +37,7 @@ public class NumberOfBoomerangs {
         }
 
         // 记录有多少方式，涉及到组合排列
-        for(Integer dis : record.keySet()){
+        for (Integer dis : record.keySet()) {
             result += record.get(dis) * (record.get(dis) - 1);
         }
 

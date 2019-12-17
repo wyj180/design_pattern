@@ -3,55 +3,55 @@
     <meta http-equiv="content-type" content="text/html;charset=utf-8">
 </head>
 <style type="text/css">
-	table {
-		font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
-		width: 100%;
-		border-collapse: collapse;
-	}
+    table {
+        font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+        width: 100%;
+        border-collapse: collapse;
+    }
 
-	td, th {
-		font-size: 1em;
-		border: 1px solid #5B4A42;
-		padding: 3px 7px 2px 7px;
-	}
+    td, th {
+        font-size: 1em;
+        border: 1px solid #5B4A42;
+        padding: 3px 7px 2px 7px;
+    }
 
-	th {
-		font-size: 1.1em;
-		text-align: center;
-		padding-top: 5px;
-		padding-bottom: 4px;
-		background-color: #24A9E1;
-		color: #ffffff;
-	}
+    th {
+        font-size: 1.1em;
+        text-align: center;
+        padding-top: 5px;
+        padding-bottom: 4px;
+        background-color: #24A9E1;
+        color: #ffffff;
+    }
 </style>
 <body>
 <div id="saHistoryData">
-	<table>
-		<tr>
-			<th>序号</th>
-			<th>Name</th>
-			<th>Age</th>
-			<th>Phone</th>
-		</tr>
-		<#list users as user>
-			<#--判断下标为第一行时，设置字体颜色-->
-			<#if user_index == 0>
-				<tr style="color: #202fff">
-					<td>${user_index  + 1}</td>
-					<td>${user.name}</td>
-					<td>${user.age}</td>
-					<td>${user.phone}</td>
-				</tr>
-			<#else>
-				<tr>
-					<td>${user_index + 1}</td>
-					<td>${user.name}</td>
-					<td>${user.age}</td>
-					<td>${user.phone}</td>
-				</tr>
-			</#if>
-		</#list>
-	</table>
+    <table>
+        <tr>
+            <th>序号</th>
+            <th>Name</th>
+            <th>Age</th>
+            <th>Phone</th>
+        </tr>
+        <#list users as user>
+        <#--判断下标为第一行时，设置字体颜色-->
+            <#if user_index == 0>
+                <tr style="color: #202fff">
+                    <td>${user_index  + 1}</td>
+                    <td>${user.name}</td>
+                    <td>${user.age}</td>
+                    <td>${user.phone}</td>
+                </tr>
+            <#else>
+                <tr>
+                    <td>${user_index + 1}</td>
+                    <td>${user.name}</td>
+                    <td>${user.age}</td>
+                    <td>${user.phone}</td>
+                </tr>
+            </#if>
+        </#list>
+    </table>
 </div>
 <br/>
 此邮件由系统自动生成，请勿回复!<br/>

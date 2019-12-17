@@ -20,9 +20,9 @@ public class MybatisSQLTemplate {
     public String insert(EventFormSQLParam param) {
         Map<String, Object> formData = param.getFormData();
         return new SQL()
-            .INSERT_INTO(param.getTableName())
-            .VALUES(buildFiled(formData), buildValue(formData))
-            .toString();
+                .INSERT_INTO(param.getTableName())
+                .VALUES(buildFiled(formData), buildValue(formData))
+                .toString();
     }
 
     /**
@@ -33,10 +33,10 @@ public class MybatisSQLTemplate {
      */
     public String updateById(EventFormSQLParam param) {
         return new SQL()
-            .UPDATE(param.getTableName())
-            .SET(buildSet(param.getFormData()))
-            .WHERE(buildIdWhere(param.getId()))
-            .toString();
+                .UPDATE(param.getTableName())
+                .SET(buildSet(param.getFormData()))
+                .WHERE(buildIdWhere(param.getId()))
+                .toString();
     }
 
     /**
@@ -65,7 +65,7 @@ public class MybatisSQLTemplate {
             if (param.getId() != null) {
                 WHERE(buildIdWhere(param.getId()));
             }
-            if(param.getOrders() != null){
+            if (param.getOrders() != null) {
                 ORDER_BY(buildOrder(param.getOrders()));
             }
             if (param.getIns() != null) {
@@ -133,7 +133,6 @@ public class MybatisSQLTemplate {
      * 构建in('value1', 'value2')
      * 使用方式：结合WHERE一起使用
      * 示例：WHERE(buildIns(param.getIns()));
-     *
      *
      * @param conditions
      * @return

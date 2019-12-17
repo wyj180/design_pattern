@@ -28,74 +28,75 @@ import java.util.List;
  */
 public interface ElasticSearchManager {
 
-	/**
-	 * Simple Search
-	 * @param pageQuery
-	 * @return
-	 */
-	SearchResult<String> simpleSearchByFullText(ElasticSearchPageQuery pageQuery);
+    /**
+     * Simple Search
+     *
+     * @param pageQuery
+     * @return
+     */
+    SearchResult<String> simpleSearchByFullText(ElasticSearchPageQuery pageQuery);
 
-	/**
-	 * @param pageQuery
-	 * @param groupByField
-	 * @return
-	 */
-	SearchResult<String> simpleAggregationSearchByFullText(ElasticSearchPageQuery pageQuery, String groupByField);
+    /**
+     * @param pageQuery
+     * @param groupByField
+     * @return
+     */
+    SearchResult<String> simpleAggregationSearchByFullText(ElasticSearchPageQuery pageQuery, String groupByField);
 
-	/**
-	 *
-	 * @param pageQuery
-	 * @param groupByField
-	 * @return
-	 */
-	SearchResult<String> compositeAggregationSearch(ElasticSearchPageQuery pageQuery, String groupByField);
+    /**
+     * @param pageQuery
+     * @param groupByField
+     * @return
+     */
+    SearchResult<String> compositeAggregationSearch(ElasticSearchPageQuery pageQuery, String groupByField);
 
-	/**
-	 * @param pageQuery
-	 * @param groupByField
-	 * @param clazz
-	 * @return
-	 * @param <T>
-	 */
-	<T> SearchResult<T> simpleAggregationSearchByFullText(ElasticSearchPageQuery pageQuery, String groupByField,
+    /**
+     * @param pageQuery
+     * @param groupByField
+     * @param clazz
+     * @param <T>
+     * @return
+     */
+    <T> SearchResult<T> simpleAggregationSearchByFullText(ElasticSearchPageQuery pageQuery, String groupByField,
                                                           Class<T> clazz);
 
-	/**
-	 * Composite Search
-	 *
-	 * @param pageQuery
-	 * @param groupByField
-	 * @param clazz
-	 * @param <T>
-	 * @return
-	 */
-	<T> SearchResult<T> compositeSearchByFullText(ElasticSearchPageQuery pageQuery, String groupByField, Class<T> clazz);
+    /**
+     * Composite Search
+     *
+     * @param pageQuery
+     * @param groupByField
+     * @param clazz
+     * @param <T>
+     * @return
+     */
+    <T> SearchResult<T> compositeSearchByFullText(ElasticSearchPageQuery pageQuery, String groupByField, Class<T> clazz);
 
-	/**
-	 * Simple Search
-	 * @param pageQuery
-	 * @param clazz
-	 * @param <T>
-	 * @return
-	 */
-	<T> SearchResult<T> simpleSearchByFullText(ElasticSearchPageQuery pageQuery, Class<T> clazz);
+    /**
+     * Simple Search
+     *
+     * @param pageQuery
+     * @param clazz
+     * @param <T>
+     * @return
+     */
+    <T> SearchResult<T> simpleSearchByFullText(ElasticSearchPageQuery pageQuery, Class<T> clazz);
 
-	/**
-	 * 查询所有满足条件的数据
-	 *
-	 * @param pageQuery
-	 * @param clazz
-	 * @param <T>
-	 * @return
-	 */
-	<T> List<T> searchAllByFullText(ElasticSearchPageQuery pageQuery, Class<T> clazz);
+    /**
+     * 查询所有满足条件的数据
+     *
+     * @param pageQuery
+     * @param clazz
+     * @param <T>
+     * @return
+     */
+    <T> List<T> searchAllByFullText(ElasticSearchPageQuery pageQuery, Class<T> clazz);
 
-	/**
-	 * @param deleteRequest
-	 * @return
-	 * @throws IOException
-	 */
-	BulkByScrollResponse deleteByMatchQuery(ElasticSearchDeleteRequest deleteRequest) throws IOException;
+    /**
+     * @param deleteRequest
+     * @return
+     * @throws IOException
+     */
+    BulkByScrollResponse deleteByMatchQuery(ElasticSearchDeleteRequest deleteRequest) throws IOException;
 
 }
 

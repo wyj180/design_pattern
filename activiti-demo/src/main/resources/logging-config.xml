@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration debug="false">
     <!--定义日志文件的存储地址-->
-    <property name="LOG_HOME" value="./logs" />
+    <property name="LOG_HOME" value="./logs"/>
 
     <!-- 控制台输出 -->
     <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
@@ -14,7 +14,7 @@
     </appender>
 
     <!-- 按照每天生成日志文件 -->
-    <appender name="FILE"  class="ch.qos.logback.core.rolling.RollingFileAppender">
+    <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
             <!--日志文件输出的文件名-->
             <fileNamePattern>${LOG_HOME}/sqm.%d{yyyy-MM-dd}.%i.log</fileNamePattern>
@@ -51,7 +51,7 @@
     <!-- 生成html格式日志结束 -->
 
     <!-- 每天生成一个html格式的日志开始 -->
-    <appender name="FILE_HTML"  class="ch.qos.logback.core.rolling.RollingFileAppender">
+    <appender name="FILE_HTML" class="ch.qos.logback.core.rolling.RollingFileAppender">
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
             <!--日志文件输出的文件名-->
             <FileNamePattern>${LOG_HOME}/sqm.%d{yyyy-MM-dd}.html</FileNamePattern>
@@ -79,9 +79,9 @@
 
     <!-- 日志输出级别 -->
     <root level="INFO">
-        <appender-ref ref="STDOUT" />
-        <appender-ref ref="FILE" />
-        <appender-ref ref="HTML" />
-        <appender-ref ref="FILE_HTML" />
+        <appender-ref ref="STDOUT"/>
+        <appender-ref ref="FILE"/>
+        <appender-ref ref="HTML"/>
+        <appender-ref ref="FILE_HTML"/>
     </root>
 </configuration>

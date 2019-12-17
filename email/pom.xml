@@ -90,21 +90,21 @@
             </resource>
         </resources>
 
-<!--        <resources>-->
-<!--            <resource>-->
-<!--                &lt;!&ndash; 把配置文件打进包里，有问题，文件不是原文件 &ndash;&gt;-->
-<!--                <directory>src/main/resources</directory>-->
-<!--                <filtering>true</filtering>-->
-<!--                &lt;!&ndash; 打包时所包含的配置文件 &ndash;&gt;-->
-<!--                <includes>-->
-<!--                    <include>application.yml</include>-->
-<!--                    <include>application-${profileActive}.yml</include>-->
-<!--                    <include>application-db-${profileActive}.yml</include>-->
-<!--                    <include>application-manager-${profileActive}.yml</include>-->
-<!--                    <include>**/*.xlsx</include>-->
-<!--                </includes>-->
-<!--            </resource>-->
-<!--        </resources>-->
+        <!--        <resources>-->
+        <!--            <resource>-->
+        <!--                &lt;!&ndash; 把配置文件打进包里，有问题，文件不是原文件 &ndash;&gt;-->
+        <!--                <directory>src/main/resources</directory>-->
+        <!--                <filtering>true</filtering>-->
+        <!--                &lt;!&ndash; 打包时所包含的配置文件 &ndash;&gt;-->
+        <!--                <includes>-->
+        <!--                    <include>application.yml</include>-->
+        <!--                    <include>application-${profileActive}.yml</include>-->
+        <!--                    <include>application-db-${profileActive}.yml</include>-->
+        <!--                    <include>application-manager-${profileActive}.yml</include>-->
+        <!--                    <include>**/*.xlsx</include>-->
+        <!--                </includes>-->
+        <!--            </resource>-->
+        <!--        </resources>-->
 
     </build>
 

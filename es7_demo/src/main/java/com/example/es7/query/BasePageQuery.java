@@ -22,24 +22,24 @@ import io.swagger.annotations.ApiModelProperty;
  */
 @ApiModel
 public class BasePageQuery {
-	@ApiModelProperty(value = "页码",required = false)
-	private int pageNum = 1;
-	@ApiModelProperty(value = "每页条数",required = false)
-	private int pageSize = 10;
+    @ApiModelProperty(value = "页码", required = false)
+    private int pageNum = 1;
+    @ApiModelProperty(value = "每页条数", required = false)
+    private int pageSize = 10;
 
-	public int getPageNum() {
-		return pageNum;
-	}
+    public int getPageNum() {
+        return pageNum;
+    }
 
-	public void setPageNum(int pageNum) {
-		this.pageNum = pageNum;
-	}
+    public void setPageNum(int pageNum) {
+        this.pageNum = pageNum;
+    }
 
-	public int getPageSize() {
-		return pageSize;
-	}
+    public int getPageSize() {
+        return pageSize;
+    }
 
-	public void setPageSize(int pageSize) {
-		this.pageSize = pageSize;
-	}
+    public void setPageSize(int pageSize) {
+        this.pageSize = pageSize;
+    }
 }

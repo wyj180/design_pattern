@@ -25,7 +25,7 @@ public class Components {
         // 求联通分量
         for (int i = 0; i < v; i++) {
             // 每个联通分量只便利一次
-            if(!visited[i]){
+            if (!visited[i]) {
                 adj(i);
                 count++;
             }
@@ -45,7 +45,7 @@ public class Components {
     }
 
     // 返回图中联通分量个数
-    public int count(){
+    public int count() {
         return count;
     }
 

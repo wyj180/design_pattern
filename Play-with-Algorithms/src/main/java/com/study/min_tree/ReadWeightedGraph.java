@@ -10,12 +10,12 @@ import java.util.InputMismatchException;
 import java.util.NoSuchElementException;
 
 // 通过文件读取有全图的信息
-public class ReadWeightedGraph{
+public class ReadWeightedGraph {
 
     private Scanner scanner;
 
     // 由于文件格式的限制，我们的文件读取类只能读取权值为Double类型的图
-    public ReadWeightedGraph(WeightedGraph<Double> graph, String filename){
+    public ReadWeightedGraph(WeightedGraph<Double> graph, String filename) {
 
         readFile(filename);
 
@@ -39,17 +39,15 @@ public class ReadWeightedGraph{
                 assert w >= 0 && w < V;
                 graph.addEdge(new Edge<Double>(v, w, weight));
             }
-        }
-        catch (InputMismatchException e) {
+        } catch (InputMismatchException e) {
             String token = scanner.next();
             throw new InputMismatchException("attempts to read an 'int' value from input stream, but the next token is \"" + token + "\"");
-        }
-        catch (NoSuchElementException e) {
+        } catch (NoSuchElementException e) {
             throw new NoSuchElementException("attemps to read an 'int' value from input stream, but there are no more tokens available");
         }
     }
 
-    private void readFile(String filename){
+    private void readFile(String filename) {
         assert filename != null;
         try {
             File file = new File(filename);
@@ -57,12 +55,10 @@ public class ReadWeightedGraph{
                 FileInputStream fis = new FileInputStream(file);
                 scanner = new Scanner(new BufferedInputStream(fis), "UTF-8");
                 scanner.useLocale(Locale.ENGLISH);
-            }
-            else {
+            } else {
                 throw new IllegalArgumentException(filename + " doesn't exist.");
             }
-        }
-        catch (IOException ioe) {
+        } catch (IOException ioe) {
             throw new IllegalArgumentException("Could not open " + filename, ioe);
         }
     }
