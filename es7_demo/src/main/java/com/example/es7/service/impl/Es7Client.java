@@ -124,7 +124,7 @@ public class Es7Client implements ElasticSearchManager {
         //searchSourceBuilder.sort("id_original", SortOrder.DESC);
 
         // 排序二： 成功
-//        FieldSortBuilder fieldSortBuilder = SortBuilders.fieldSort("id_original").order(SortOrder.DESC);
+       // FieldSortBuilder fieldSortBuilder = SortBuilders.fieldSort("id_original").order(SortOrder.DESC);
 //        searchSourceBuilder.sort(fieldSortBuilder);
 
         addFieldSort(searchSourceBuilder, pageQuery.getFieldSorts());
@@ -146,11 +146,9 @@ public class Es7Client implements ElasticSearchManager {
 //        rangeQueryBuilder.to(13);
 //        boolBuilder.must(rangeQueryBuilder);
 
-        // 根据是
+        // 根据时间范围查询
         RangeQueryBuilder rangeQueryBuilder = QueryBuilders.rangeQuery("gmt_create");
         rangeQueryBuilder.from("1575946364");
-        //                      1576116739000
-        //                      1576116739
         rangeQueryBuilder.to("1575979688");
 
         boolBuilder.must(rangeQueryBuilder);

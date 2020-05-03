@@ -1,16 +1,6 @@
 package com.study.email.demo01;
 
-import java.io.File;
-import java.time.LocalDate;
-import java.time.LocalTime;
-import java.util.HashMap;
-import java.util.Map;
-
-import javax.mail.Message;
-import javax.mail.MessagingException;
-import javax.mail.internet.InternetAddress;
-import javax.mail.internet.MimeMessage;
-
+import freemarker.template.Template;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
@@ -24,7 +14,15 @@ import org.springframework.ui.freemarker.FreeMarkerTemplateUtils;
 import org.springframework.util.ResourceUtils;
 import org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer;
 
-import freemarker.template.Template;
+import javax.mail.Message;
+import javax.mail.MessagingException;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
+import java.io.File;
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.util.HashMap;
+import java.util.Map;
 
 @Component
 public class MailServiceImpl {

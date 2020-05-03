@@ -17,6 +17,12 @@ public class UserController {
     @Autowired
     private UserService userService;
 
+    @RequestMapping("insertMuiti")
+    public String insertMuiti() {
+        userService.insertMuiti();
+        return "success";
+    }
+
     @RequestMapping("getUser/{id}")
     public User getUser(@PathVariable Integer id) {
         return userService.sel(id);

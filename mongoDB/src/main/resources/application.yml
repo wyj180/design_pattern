@@ -1,0 +1,11 @@
+server:
+  port: 8080
+
+spring:
+  data:
+    mongodb:
+      database: pfform
+      #username:
+      #password:
+      host: 172.17.202.17
+      port: 27017

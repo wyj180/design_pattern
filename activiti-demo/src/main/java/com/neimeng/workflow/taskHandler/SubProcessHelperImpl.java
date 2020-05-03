@@ -10,7 +10,6 @@ public class SubProcessHelperImpl {
 
     public List<String> getUserNames() {
         List<String> userNames = new ArrayList<>();
-        userNames.add("test001");
         userNames.add("test002");
         userNames.add("test003");
         return userNames;

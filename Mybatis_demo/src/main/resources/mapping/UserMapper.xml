@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.demo.mapper.UserMapper">
+  <resultMap id="BaseResultMap" type="com.example.demo.domain.User">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="realName" jdbcType="VARCHAR" property="realname" />
+    <result column="gmt_create" jdbcType="TIMESTAMP" property="gmtCreate" />
+  </resultMap>
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.example.demo.domain.UserWithBLOBs">
+    <result column="userName" jdbcType="LONGVARCHAR" property="username" />
+    <result column="passWord" jdbcType="LONGVARCHAR" property="password" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, realName, gmt_create
+  </sql>
+  <sql id="Blob_Column_List">
+    userName, passWord
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from user
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from user
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.example.demo.domain.UserWithBLOBs" useGeneratedKeys="true" keyColumn="id" keyProperty="id">
+    insert into user (id, realName, gmt_create, 
+      userName, passWord)
+    values (#{id,jdbcType=INTEGER}, #{realname,jdbcType=VARCHAR}, #{gmtCreate,jdbcType=TIMESTAMP}, 
+      #{username,jdbcType=LONGVARCHAR}, #{password,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.example.demo.domain.UserWithBLOBs">
+    insert into user
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="realname != null">
+        realName,
+      </if>
+      <if test="gmtCreate != null">
+        gmt_create,
+      </if>
+      <if test="username != null">
+        userName,
+      </if>
+      <if test="password != null">
+        passWord,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="realname != null">
+        #{realname,jdbcType=VARCHAR},
+      </if>
+      <if test="gmtCreate != null">
+        #{gmtCreate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="username != null">
+        #{username,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="password != null">
+        #{password,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.example.demo.domain.UserWithBLOBs">
+    update user
+    <set>
+      <if test="realname != null">
+        realName = #{realname,jdbcType=VARCHAR},
+      </if>
+      <if test="gmtCreate != null">
+        gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="username != null">
+        userName = #{username,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="password != null">
+        passWord = #{password,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.example.demo.domain.UserWithBLOBs">
+    update user
+    set realName = #{realname,jdbcType=VARCHAR},
+      gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
+      userName = #{username,jdbcType=LONGVARCHAR},
+      passWord = #{password,jdbcType=LONGVARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.example.demo.domain.User">
+    update user
+    set realName = #{realname,jdbcType=VARCHAR},
+      gmt_create = #{gmtCreate,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

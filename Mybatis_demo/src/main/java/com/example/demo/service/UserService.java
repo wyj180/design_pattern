@@ -1,9 +1,11 @@
 package com.example.demo.service;
 
+import com.example.demo.domain.UserWithBLOBs;
 import com.example.demo.entity.EventFormSQLParam;
 import com.example.demo.entity.User;
 import com.example.demo.entity.queryParam.EventListPageQuery;
 import com.example.demo.mapper.EventFormDataMapper;
+import com.example.demo.mapper.OldUserMapper;
 import com.example.demo.mapper.UserMapper;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
@@ -20,13 +22,16 @@ import java.util.Map;
 public class UserService {
 
     @Resource
+    OldUserMapper oldUserMapper;
+
+    @Resource
     UserMapper userMapper;
 
     @Resource
     EventFormDataMapper orderInfoMapper;
 
     public User sel(Integer id) {
-        return userMapper.sel(id);
+        return oldUserMapper.sel(id);
     }
 
     public Object getUser2(Integer id) {
@@ -54,6 +59,25 @@ public class UserService {
 
         List<Object> list = orderInfoMapper.selectList(sqlParam);
         return list;
+    }
+
+    public void insertMuiti() {
+        List<UserWithBLOBs> users = getUsers();
+
+        // 使用java8的这种写法插入数据，可以获取到插入后的id值
+        users.stream().forEach(user -> {
+            userMapper.insert(user);
+        });
+
+        System.out.println(users);
+    }
+
+    private List<UserWithBLOBs> getUsers() {
+        List<UserWithBLOBs> users = new ArrayList<>();
+        users.add(new UserWithBLOBs("userName1", "password1", "realName1"));
+        users.add(new UserWithBLOBs("userName2", "password2", "realName2"));
+        users.add(new UserWithBLOBs("userName3", "password3", "realName3"));
+        return users;
     }
 
     public User insertUser() {

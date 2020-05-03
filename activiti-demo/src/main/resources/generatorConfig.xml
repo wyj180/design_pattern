@@ -2,7 +2,6 @@
 <!DOCTYPE generatorConfiguration
         PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
         "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
-
 <generatorConfiguration>
     <!--导入数据库属性配置-->
     <properties resource="datasource.properties"></properties>
@@ -36,14 +35,14 @@
             targetProject     指定在该项目下所在的路径
         -->
         <!--<javaModelGenerator targetPackage="com.mmall.pojo" targetProject=".\src\main\java">-->
-        <javaModelGenerator targetPackage="com.neimeng.workflow.entity.pojo" targetProject="./src/main/java">
+        <javaModelGenerator targetPackage="com.lenovo.cd.mf.authcenter.domain" targetProject="./src/main/java">
             <property name="enableSubPackages" value="false"/>
             <property name="trimStrings" value="true"/>
         </javaModelGenerator>
 
         <!--mapper映射文件生成所在的目录 为每一个数据库的表生成对应的SqlMap文件 -->
         <!--<sqlMapGenerator targetPackage="mappers" targetProject=".\src\main\resources">-->
-        <sqlMapGenerator targetPackage="mappers" targetProject="./src/main/resources">
+        <sqlMapGenerator targetPackage="resources.mybatis.mapping" targetProject="./src/main/resources">
             <property name="enableSubPackages" value="false"/>
         </sqlMapGenerator>
 
@@ -55,28 +54,31 @@
 
         <!-- targetPackage：mapper接口dao生成的位置 -->
         <!--<javaClientGenerator type="XMLMAPPER" targetPackage="com.mmall.dao" targetProject=".\src\main\java">-->
-        <javaClientGenerator type="XMLMAPPER" targetPackage="com.neimeng.workflow.dao" targetProject="./src/main/java">
+        <javaClientGenerator type="XMLMAPPER" targetPackage="com.lenovo.cd.mf.authcenter.dao" targetProject="./src/main/java">
             <!-- enableSubPackages:是否让schema作为包的后缀 -->
             <property name="enableSubPackages" value="false"/>
         </javaClientGenerator>
-
-
-<!--        <table tableName="process_task"-->
-<!--               domainObjectName="ProcessTask"-->
-<!--               enableCountByExample="false"-->
-<!--               enableUpdateByExample="false"-->
-<!--               enableDeleteByExample="false"-->
-<!--               enableSelectByExample="false"-->
-<!--               selectByExampleQueryId="false"></table>-->
-
-<!--        <table tableName="process_dataset"-->
-<!--               domainObjectName="ProcessDataset"-->
-<!--               enableCountByExample="false"-->
-<!--               enableUpdateByExample="false"-->
-<!--               enableDeleteByExample="false"-->
-<!--               enableSelectByExample="false"-->
-<!--               selectByExampleQueryId="false"></table>-->
-
-        <!-- geelynote mybatis插件的搭建 -->
+        <!-- 要生成的表 tableName是数据库中的表名或视图名 domainObjectName是实体类名-->
+        <!--<table tableName="ac_user" domainObjectName="AcUser" enableCountByExample="true" enableUpdateByExample="true" enableDeleteByExample="true" enableSelectByExample="true" selectByExampleQueryId="true">-->
+        <!--<generatedKey column="id" sqlStatement="Mysql" identity="true"/>-->
+        <!--</table>-->
+        <!--<table tableName="ac_role" domainObjectName="AcRole" enableCountByExample="true" enableUpdateByExample="true" enableDeleteByExample="true" enableSelectByExample="true" selectByExampleQueryId="true">-->
+        <!--<generatedKey column="id" sqlStatement="Mysql" identity="true"/>-->
+        <!--</table>-->
+        <!--<table tableName="ac_res" domainObjectName="AcRes" enableCountByExample="true" enableUpdateByExample="true" enableDeleteByExample="true" enableSelectByExample="true" selectByExampleQueryId="true">-->
+        <!--<generatedKey column="id" sqlStatement="Mysql" identity="true"/>-->
+        <!--</table>-->
+        <!--<table tableName="ac_role_res" domainObjectName="AcRoleRes" enableCountByExample="true" enableUpdateByExample="true" enableDeleteByExample="true" enableSelectByExample="true" selectByExampleQueryId="true">-->
+        <!--</table>-->
+        <!--<table tableName="ac_role_user" domainObjectName="AcRoleUser" enableCountByExample="true" enableUpdateByExample="true" enableDeleteByExample="true" enableSelectByExample="true" selectByExampleQueryId="true">-->
+        <!--</table>-->
+        <!--<table tableName="ac_dict" domainObjectName="AcDict" enableCountByExample="true" enableUpdateByExample="true" enableDeleteByExample="true" enableSelectByExample="true" selectByExampleQueryId="true">-->
+        <!--<generatedKey column="id" sqlStatement="Mysql" identity="true"/>-->
+        <!--</table>-->
+        <table tableName="ac_dict_item" domainObjectName="AcDictItem" enableCountByExample="true" enableUpdateByExample="true" enableDeleteByExample="true" enableSelectByExample="true" selectByExampleQueryId="true">
+            <generatedKey column="id" sqlStatement="Mysql" identity="true"/>
+        </table>
     </context>
+
+
 </generatorConfiguration>
