@@ -2,9 +2,9 @@ package com.study.binaryTree;
 
 public class TreeNode<T> {
 
-    T t;
-    TreeNode left;
-    TreeNode right;
+    public T t;
+    public TreeNode left;
+    public TreeNode right;
 
     public TreeNode(T t, TreeNode left, TreeNode right) {
         this.t = t;
